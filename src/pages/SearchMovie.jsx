@@ -137,7 +137,7 @@ export default function SearchMovie() {
 
               <button
                 type="submit"
-                className="bg-[#FF5BAE] ml-2 transition ease-in-out p-2 rounded-lg hover:bg-[#128bb5] hover:-translate-y-1 hover:scale-110 hover:text-white"
+                className="bg-[#FF5BAE] text-white ml-2 transition ease-in-out p-2 rounded-lg hover:bg-[#FFC94A] hover:-translate-y-1 hover:scale-110"
               >
                 Search
               </button>

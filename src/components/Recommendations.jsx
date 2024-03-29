@@ -37,20 +37,29 @@ export default function Recommendations() {
   };
 
   return (
-    <div className="mx-10 relative bottom-[200px]">
-      <div className="text-white mb-5">
-        <h2 className="text-3xl font-black">RECOMMENDATIONS</h2>
-      </div>
+    <div>
+      {recommendations?.length === 0 ? (
+        <div className="mx-10 relative bottom-[100px] text-white mb-10">
+          <h2 className="text-3xl font-black mb-4">RECOMMENDATIONS</h2>
+          <h3>No recommendations available at the moment.</h3>
+        </div>
+      ) : (
+        <div className="mx-10 relative bottom-[200px]">
+          <div className="text-white mb-5">
+            <h2 className="text-3xl font-black">RECOMMENDATIONS</h2>
+          </div>
 
-      <div className="">
-        <Slider {...settings}>
-          {recommendations?.map((movie) => (
-            <div key={movie.id}>
-              <Card movie={movie} />
-            </div>
-          ))}
-        </Slider>
-      </div>
+          <div className="">
+            <Slider {...settings}>
+              {recommendations?.map((movie) => (
+                <div key={movie.id}>
+                  <Card movie={movie} />
+                </div>
+              ))}
+            </Slider>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

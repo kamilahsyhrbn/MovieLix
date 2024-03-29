@@ -5,6 +5,8 @@ import { FaStar } from "react-icons/fa";
 import Recommendations from "../components/Recommendations";
 import Credits from "../components/Credits";
 import { IoChevronBack } from "react-icons/io5";
+import NoImage from "../assets/default_poster.jpeg";
+import NoBG from "../assets/default-bg.png";
 
 export default function DetailMovie() {
   const API_KEY = process.env.API_KEY;
@@ -55,7 +57,9 @@ export default function DetailMovie() {
                 src={
                   detail?.backdrop_path
                     ? `https://image.tmdb.org/t/p/original${detail?.backdrop_path}`
-                    : `https://image.tmdb.org/t/p/original${detail?.poster_path}`
+                    : detail?.poster_path
+                    ? `https://image.tmdb.org/t/p/original${detail?.poster_path}`
+                    : NoBG
                 }
                 className="w-full h-[500px] object-cover "
                 style={{ objectPosition: "0 35%" }}
@@ -66,7 +70,11 @@ export default function DetailMovie() {
               <div className="mr-8">
                 <div className="w-[300px]">
                   <img
-                    src={`https://image.tmdb.org/t/p/original${detail?.poster_path}`}
+                    src={
+                      detail?.poster_path
+                        ? `https://image.tmdb.org/t/p/original${detail?.poster_path}`
+                        : NoImage
+                    }
                     className="rounded-lg shadow-2xl "
                   />
                 </div>
@@ -88,21 +96,29 @@ export default function DetailMovie() {
                     Release date : {detail?.release_date}
                   </div>
                   <div className="mt-5">
-                    {detail?.genres.map((genre) => (
-                      <span
-                        key={genre?.id}
-                        className="mr-3 p-2 border-2 rounded-3xl"
-                      >
-                        {genre?.name}
-                      </span>
-                    ))}
+                    {detail?.genres.length === 0 ? (
+                      <span>Genre not found</span>
+                    ) : (
+                      <div>
+                        {detail?.genres.map((genre) => (
+                          <span
+                            key={genre?.id}
+                            className="mr-3 p-2 border-2 rounded-3xl"
+                          >
+                            {genre?.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="my-auto">
                   <h1 className="mb-5 text-2xl font-semibold flex relative items-center">
                     Synopsis
                   </h1>
-                  <div>{detail?.overview}</div>
+                  <div>
+                    {detail?.overview ? detail?.overview : "No synopsis"}
+                  </div>
                 </div>
               </div>
             </div>

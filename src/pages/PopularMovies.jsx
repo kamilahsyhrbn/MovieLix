@@ -4,11 +4,15 @@ import Card from "../components/Card";
 import { LuArrowUpDown } from "react-icons/lu";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaCircleArrowRight } from "react-icons/fa6";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 export default function PopularMovies() {
   const API_KEY = process.env.API_KEY;
   const [popular, setPopular] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [query, setQuery] = useState("");
   const [counts, setCounts] = useState("");
   const [sorted, setSorted] = useState("popularity.desc");
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +21,9 @@ export default function PopularMovies() {
   const popularMovies = async () => {
     try {
       const response = await axios.get(
-        `https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US&page=${currentPage}&api_key=${API_KEY}&sort_by=${sorted}`,
+        query === ""
+          ? `https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US&page=${currentPage}&api_key=${API_KEY}&sort_by=${sorted}`
+          : `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${API_KEY}&include_adult=false&page=${currentPage}`,
         { header: { accept: "application/json" } }
       );
       console.log("Response popular: ", response.data);
@@ -37,7 +43,7 @@ export default function PopularMovies() {
 
   useEffect(() => {
     popularMovies();
-  }, [currentPage, sorted]);
+  }, [currentPage, sorted, query]);
 
   const indexOfLastMovie = currentPage * moviesPerPage;
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
@@ -52,8 +58,24 @@ export default function PopularMovies() {
   };
 
   const handleSort = (event) => {
+    notifySuccess();
     setSorted(event.target.value);
     setCurrentPage(1);
+    setQuery("");
+  };
+
+  const onChangeSearch = (event) => {
+    setQuery(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const notifySuccess = () => {
+    if (sorted === "popularity.asc") {
+      toast.success(`Successfully sort by Top Popular Movie!`);
+    }
+    if (sorted === "popularity.desc") {
+      toast.success(`Successfully sort by Lowest Popular Movie!`);
+    }
   };
 
   return (
@@ -70,6 +92,7 @@ export default function PopularMovies() {
 
       {!isLoading && (
         <div className="pt-0 px-12 pb-12">
+          <ToastContainer />
           <div className="m-7 mb-3 text-white text-center">
             <h2 className="text-2xl font-black tracking-widest">
               POPULAR MOVIES
@@ -88,6 +111,66 @@ export default function PopularMovies() {
                 <option value="popularity.desc">Most Popular Movies</option>
               </select>
             </div>
+            {popular.length === 0 ? (
+              <p className="hidden"></p>
+            ) : (
+              <div className="flex justify-center">
+                <div className="text-white flex items-center mt-5">
+                  <button
+                    className="text-2xl mr-2"
+                    onClick={goToPrevPage}
+                    disabled={currentPage === 1}
+                  >
+                    <FaCircleArrowLeft
+                      className={`${
+                        currentPage === 1
+                          ? "text-[#564d4d] hover:text-[#564d4d]/50"
+                          : "text-[#FF5BAE] hover:text-[#FF5BAE]/50"
+                      }`}
+                    />
+                  </button>
+                  {currentPage} of {counts?.total_pages}
+                  <button className="text-2xl ml-2" onClick={goToNextPage}>
+                    <FaCircleArrowRight
+                      className={`${
+                        currentPage === counts?.total_pages
+                          ? "text-[#564d4d] hover:text-[#564d4d]/50"
+                          : "text-[#FF5BAE] hover:text-[#FF5BAE]/50"
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
+            )}
+            <div className="flex items-center">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search popular movies"
+                  value={query}
+                  onChange={onChangeSearch}
+                  className="p-1 border outline-none w-[300px] focus:border-[#FF5BAE] rounded-lg text-black"
+                />
+                <div className="absolute top-2  right-3 flex text-slate-500">
+                  <FaMagnifyingGlass />
+                </div>
+              </div>
+            </div>
+          </div>
+          {popular.length === 0 ? (
+            <p className="text-white text-center">No movies found.</p>
+          ) : (
+            <div className="flex flex-wrap justify-center">
+              {currentMovies?.map((movie) => (
+                <div key={movie.id}>
+                  <Card movie={movie} />
+                </div>
+              ))}
+            </div>
+          )}
+          {popular.length === 0 ? (
+            <p className="hidden"></p>
+          ) : (
             <div className="flex justify-center">
               <div className="text-white flex items-center mt-5">
                 <button
@@ -115,41 +198,7 @@ export default function PopularMovies() {
                 </button>
               </div>
             </div>
-          </div>
-          <div className="flex flex-wrap justify-center">
-            {currentMovies?.map((movie) => (
-              <div key={movie.id}>
-                <Card movie={movie} />
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-center">
-            <div className="text-white flex items-center mt-5">
-              <button
-                className="text-2xl mr-2"
-                onClick={goToPrevPage}
-                disabled={currentPage === 1}
-              >
-                <FaCircleArrowLeft
-                  className={`${
-                    currentPage === 1
-                      ? "text-[#564d4d] hover:text-[#564d4d]/50"
-                      : "text-[#FF5BAE] hover:text-[#FF5BAE]/50"
-                  }`}
-                />
-              </button>
-              {currentPage} of {counts?.total_pages}
-              <button className="text-2xl ml-2" onClick={goToNextPage}>
-                <FaCircleArrowRight
-                  className={`${
-                    currentPage === counts?.total_pages
-                      ? "text-[#564d4d] hover:text-[#564d4d]/50"
-                      : "text-[#FF5BAE] hover:text-[#FF5BAE]/50"
-                  }`}
-                />
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>

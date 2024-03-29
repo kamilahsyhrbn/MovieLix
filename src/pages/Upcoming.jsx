@@ -4,6 +4,8 @@ import axios from "axios";
 import { LuArrowUpDown } from "react-icons/lu";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaCircleArrowRight } from "react-icons/fa6";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function UpComing() {
   const API_KEY = process.env.API_KEY;
@@ -52,8 +54,24 @@ export default function UpComing() {
   };
 
   const handleSort = (event) => {
+    notifySuccess();
     setSorted(event.target.value);
     setCurrentPage(1);
+  };
+
+  const notifySuccess = () => {
+    if (sorted === "title.asc") {
+      toast.success(`Successfully sort by title descending!`);
+    }
+    if (sorted === "title.desc") {
+      toast.success(`Successfully sort by title ascending!`);
+    }
+    if (sorted === "primary_release_date.asc") {
+      toast.success(`Successfully sort by year descending!`);
+    }
+    if (sorted === "primary_release_date.desc") {
+      toast.success(`Successfully sort by year ascending!`);
+    }
   };
 
   return (
@@ -69,6 +87,7 @@ export default function UpComing() {
       )}
       {!isLoading && (
         <div className="pt-0 px-12 pb-12">
+          <ToastContainer />
           <div className="m-7 mb-3 text-white text-center">
             <h2 className="text-2xl font-black tracking-widest">
               UPCOMING MOVIES
