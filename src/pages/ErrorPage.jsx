@@ -13,7 +13,7 @@ export default function ErrorPage() {
         <i>{error.statusText || error.message}</i>
       </p>
       <Link to={-1}>
-        <button className="p-2 text-white bg-[#FF5BAE] rounded-lg mt-3 hover:bg-[#bea650]">
+        <button className="p-2 text-white bg-[#FF5BAE] rounded-lg mt-3 hover:bg-[#db4992]">
           Go back
         </button>
       </Link>

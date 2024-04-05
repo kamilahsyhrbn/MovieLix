@@ -7,11 +7,22 @@ import { FaStar } from "react-icons/fa";
 import MovieList from "../components/MovieList.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [popularMovies, setPopularMovies] = useState([]);
   const API_KEY = process.env.API_KEY;
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  console.log("location ", localStorage.getItem("token"));
+
+  useEffect(() => {
+    console.log("localStorage ", localStorage.getItem("token"));
+    if (localStorage.getItem("token") === null) {
+      alert("You have to login first!");
+      navigate("/login");
+    }
+  }, []);
 
   const carousel = async () => {
     try {

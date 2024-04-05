@@ -24,7 +24,7 @@ export default function Card({ movie }) {
                 {movie?.release_date}
                 <span className="mt-1 flex items-center">
                   <FaStar className="mr-1 text-yellow-300" />
-                  {movie?.vote_average.toFixed(1)}
+                  {movie?.vote_average}
                 </span>
               </div>
               <div className="italic text-xs mb-1">

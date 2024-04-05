@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import Recommendations from "../components/Recommendations";
 import Credits from "../components/Credits";
@@ -13,6 +13,17 @@ export default function DetailMovie() {
   const location = useLocation();
   const [detail, setDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const navigate = useNavigate();
+  // console.log("location ", localStorage.getItem("token"));
+
+  useEffect(() => {
+    console.log("localStorage ", localStorage.getItem("token"));
+    if (localStorage.getItem("token") === null) {
+      alert("You have to login first!");
+      navigate("/login");
+    }
+  }, []);
 
   const movieDetail = async () => {
     try {

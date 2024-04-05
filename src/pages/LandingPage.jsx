@@ -65,8 +65,8 @@ export default function LandingPage() {
                   <h2 className="font-bold text-[#FF5BAE]">
                     Discover a World of Unlimited Entertainment!
                   </h2>
-                  <Link to="/home">
-                    <button className="bg-[#FF5BAE] p-3 text-xl mt-4 rounded-full text-black font-semibold hover:bg-[#927714] hover:text-white">
+                  <Link to="/login">
+                    <button className="bg-[#FF5BAE] p-3 text-xl mt-4 rounded-full text-black font-semibold hover:bg-[#db4992] hover:text-white">
                       GET STARTED
                     </button>
                   </Link>

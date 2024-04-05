@@ -16,6 +16,9 @@ import BtnScrollTop from "./components/BtnScrollTop.jsx";
 import UpComing from "./pages/Upcoming.jsx";
 import NowPlaying from "./pages/NowPlaying.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
+import Login from "./pages/Login.jsx";
+import Account from "./pages/Account.jsx";
+import Register from "./pages/Register.jsx";
 
 function Layout() {
   return (
@@ -62,11 +65,23 @@ const router = createBrowserRouter([
         path: "/now-playing",
         element: <NowPlaying />,
       },
+      {
+        path: "/account",
+        element: <Account />,
+      },
     ],
   },
   {
     path: "/",
     element: <LandingPage />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ]);
 

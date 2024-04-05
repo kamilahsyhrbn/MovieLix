@@ -1,11 +1,15 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import NoImage from "../assets/Default_pfp.png";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Header() {
+  const [profile, setProfile] = useState([]);
+
   return (
     <div className="mx-10 my-5 bg-transparent flex justify-between ">
       <div className="mx-3">
-        <Link to="/">
+        <Link to="/home">
           <h3 className="text-3xl font-bold text-[#FF5BAE] flex items-center">
             Movie<span className="text-white"> Lix</span>
           </h3>
@@ -21,14 +25,19 @@ export default function Header() {
         <div className="transition ease-in-out mx-4 hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
           <Link to="/now-playing">Now Playing</Link>
         </div>
-        <div className="transition ease-in-out mr-4 hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
+        <div className="transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
           <Link to="/popular-movies">Popular Movies</Link>
         </div>
-        <div className="transition ease-in-out mr-4 hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
+        <div className="transition ease-in-out mx-4 hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
           <Link to="/top-rated">Top Rated</Link>
         </div>
         <div className="transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
           <Link to="/upcoming">Upcoming</Link>
+        </div>
+        <div className="rounded-full mx-4 border p-1">
+          <Link to="/account">
+            <img src={NoImage} className="w-[20px]" />
+          </Link>
         </div>
       </div>
     </div>
