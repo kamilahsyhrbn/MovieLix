@@ -7,6 +7,7 @@ import { FaCircleArrowRight } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 export default function TopMovies() {
   const API_KEY = process.env.API_KEY;
@@ -17,6 +18,14 @@ export default function TopMovies() {
   const [counts, setCounts] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const moviesPerPage = 20;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // console.log("localStorage ", localStorage.getItem("token"));
+    if (localStorage.getItem("token") === null) {
+      navigate("/access");
+    }
+  }, []);
 
   const topRated = async () => {
     try {

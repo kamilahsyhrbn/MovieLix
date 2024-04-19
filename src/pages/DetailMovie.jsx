@@ -13,15 +13,12 @@ export default function DetailMovie() {
   const location = useLocation();
   const [detail, setDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
   const navigate = useNavigate();
-  // console.log("location ", localStorage.getItem("token"));
 
   useEffect(() => {
-    console.log("localStorage ", localStorage.getItem("token"));
+    // console.log("localStorage ", localStorage.getItem("token"));
     if (localStorage.getItem("token") === null) {
-      alert("You have to login first!");
-      navigate("/login");
+      navigate("/access");
     }
   }, []);
 

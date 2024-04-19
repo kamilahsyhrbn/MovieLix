@@ -5,6 +5,7 @@ import Card from "../components/Card";
 // import { FaCircleArrowRight } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchMovie() {
   const API_KEY = process.env.API_KEY;
@@ -16,6 +17,15 @@ export default function SearchMovie() {
     total_results: 10000,
   });
   const [isLoading, setIsLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // console.log("localStorage ", localStorage.getItem("token"));
+    if (localStorage.getItem("token") === null) {
+      navigate("/access");
+    }
+  }, []);
 
   const movieSearch = async () => {
     try {
@@ -137,7 +147,7 @@ export default function SearchMovie() {
 
               <button
                 type="submit"
-                className="bg-[#FF5BAE] text-white ml-2 transition ease-in-out p-2 rounded-lg hover:bg-[#FFC94A] hover:-translate-y-1 hover:scale-110"
+                className="bg-[#FF5BAE] text-white ml-2 transition ease-in-out p-2 rounded-lg hover:bg-[#FF5BAE] hover:-translate-y-1 hover:scale-110"
               >
                 Search
               </button>

@@ -19,6 +19,11 @@ import LandingPage from "./pages/LandingPage.jsx";
 import Login from "./pages/Login.jsx";
 import Account from "./pages/Account.jsx";
 import Register from "./pages/Register.jsx";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import Access from "./pages/Access.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function Layout() {
   return (
@@ -83,10 +88,20 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  {
+    path: "/access",
+    element: <Access />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </GoogleOAuthProvider>
 );

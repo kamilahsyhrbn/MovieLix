@@ -14,23 +14,21 @@ export default function Home() {
   const API_KEY = process.env.API_KEY;
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  console.log("location ", localStorage.getItem("token"));
 
   useEffect(() => {
-    console.log("localStorage ", localStorage.getItem("token"));
+    // console.log("localStorage ", localStorage.getItem("token"));
     if (localStorage.getItem("token") === null) {
-      alert("You have to login first!");
-      navigate("/login");
+      navigate("/access");
     }
   }, []);
 
   const carousel = async () => {
     try {
       const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/popular?language=en-US&page=4&api_key=${API_KEY}`,
+        `https://api.themoviedb.org/3/movie/popular?language=en-US&page=9&api_key=${API_KEY}`,
         { header: { accept: "application/json" } }
       );
-      console.log("Response data: ", response.data);
+      // console.log("Response data: ", response.data);
       setPopularMovies(response.data.results);
       setIsLoading(false);
     } catch (error) {
@@ -66,6 +64,7 @@ export default function Home() {
               showStatus={false}
               showIndicators={false}
               showThumbs={false}
+              stopOnHover={false}
             >
               {popularMovies?.map((movie) => (
                 <div key={movie.id}>

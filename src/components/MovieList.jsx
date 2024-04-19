@@ -8,6 +8,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { jwtDecode } from "jwt-decode";
 
 export default function MovieList() {
   const [MovieList, setMovieList] = useState([]);
@@ -16,6 +17,8 @@ export default function MovieList() {
   const [playing, setPlaying] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const API_KEY = process.env.API_KEY;
+  const [profile, setProfile] = useState("");
+  const [googleAcc, setGoogleAcc] = useState("");
 
   //POPULAR MOVIES
   const getMovies = async () => {
@@ -82,7 +85,7 @@ export default function MovieList() {
         `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_release_type=1|2|3|4&release_date.gte=2024-01-01&release_date.lte=2025-01-01&api_key=${API_KEY}`,
         { header: { accept: "application/json" } }
       );
-      console.log("Response Now Playing: ", response.data);
+      // console.log("Response Now Playing: ", response.data);
       setPlaying(response.data.results);
       setIsLoading(false);
     } catch (error) {
@@ -114,6 +117,43 @@ export default function MovieList() {
     fade: true,
   };
 
+  const token = localStorage.getItem("token");
+  const name = localStorage.getItem("name");
+
+  useEffect(() => {
+    const account = async () => {
+      if (localStorage.getItem("login") === null) {
+        try {
+          const response = await axios.get(
+            `https://shy-cloud-3319.fly.dev/api/v1/auth/me`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("Response data", response.data.data);
+          setProfile(response.data.data);
+        } catch (error) {
+          console.log("Error: ", error);
+        }
+      }
+    };
+    account();
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("login") === "google component") {
+      const decoded = jwtDecode(localStorage.getItem("token"));
+      // console.log("decodedd", decoded);
+      setGoogleAcc(decoded);
+      if (decoded?.exp < new Date() / 1000) {
+        navigate("/access");
+        localStorage.removeItem("token");
+      }
+    }
+  }, []);
+
   return (
     <>
       {isLoading && (
@@ -128,6 +168,13 @@ export default function MovieList() {
       {!isLoading && (
         <div className="pt-0 px-12 pb-12">
           <div className="slider-container">
+            <div className="m-7 mb-5 ml-3 text-white text-center">
+              <h1 className="text-4xl font-black">
+                Welcome Back,{" "}
+                {profile?.name ? profile?.name : name ? name : googleAcc?.name}{" "}
+                ✨
+              </h1>
+            </div>
             <div className="m-7 mb-5 ml-3 text-white flex justify-between items-center">
               <h2 className="text-2xl font-black tracking-widest">
                 POPULAR MOVIES
@@ -148,7 +195,7 @@ export default function MovieList() {
               </Slider>
             </div>
 
-            <div className="grid grid-cols-2 my-7">
+            <div className="grid grid-cols-2 my-7 max-sm:grid-cols-1">
               <div className="text-white">
                 <h1 className="text-3xl font-black tracking-widest mb-3">
                   NOW PLAYING
@@ -162,7 +209,7 @@ export default function MovieList() {
                     molestias?
                   </span>
                   <Link to="/now-playing">
-                    <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FFC94A]">
+                    <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FF5BAE]">
                       See More
                     </button>
                   </Link>
@@ -225,7 +272,7 @@ export default function MovieList() {
                 ))}
               </Slider>
             </div>
-            <div className="grid grid-cols-2 my-7">
+            <div className="grid grid-cols-2 my-7 max-sm:grid-cols-1">
               <div>
                 <Slider {...settings2}>
                   {rated?.map((movie) => (
@@ -275,7 +322,7 @@ export default function MovieList() {
                   molestias?
                 </span>
                 <Link to="/top-rated">
-                  <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FFC94A]">
+                  <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FF5BAE]">
                     See More
                   </button>
                 </Link>

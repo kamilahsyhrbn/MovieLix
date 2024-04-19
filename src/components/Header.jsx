@@ -1,18 +1,31 @@
 import { Link } from "react-router-dom";
 import NoImage from "../assets/Default_pfp.png";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
-  const [profile, setProfile] = useState([]);
+  const [googleAcc, setGoogleAcc] = useState("");
+  const photo = localStorage.getItem("photo");
+
+  useEffect(() => {
+    if (localStorage.getItem("login") === "google component") {
+      const decoded = jwtDecode(localStorage.getItem("token"));
+      console.log("decodedd", decoded);
+      setGoogleAcc(decoded);
+      if (decoded?.exp < new Date() / 1000) {
+        navigate("/access");
+        localStorage.removeItem("token");
+      }
+    }
+  }, []);
 
   return (
     <div className="mx-10 my-5 bg-transparent flex justify-between ">
       <div className="mx-3">
         <Link to="/home">
-          <h3 className="text-3xl font-bold text-[#FF5BAE] flex items-center">
+          <h2 className="text-3xl font-bold text-[#FF5BAE] flex items-center">
             Movie<span className="text-white"> Lix</span>
-          </h3>
+          </h2>
         </Link>
       </div>
       <div className="flex items-center text-white">
@@ -34,9 +47,18 @@ export default function Header() {
         <div className="transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
           <Link to="/upcoming">Upcoming</Link>
         </div>
-        <div className="rounded-full mx-4 border p-1">
+        <div className="rounded-full mx-4 border p-0.5">
           <Link to="/account">
-            <img src={NoImage} className="w-[20px]" />
+            <img
+              src={
+                photo
+                  ? photo
+                  : googleAcc?.picture
+                  ? googleAcc?.picture
+                  : NoImage
+              }
+              className="w-[20px] rounded-full object-cover"
+            />
           </Link>
         </div>
       </div>

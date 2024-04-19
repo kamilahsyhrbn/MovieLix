@@ -6,6 +6,7 @@ import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 export default function UpComing() {
   const API_KEY = process.env.API_KEY;
@@ -15,6 +16,14 @@ export default function UpComing() {
   const [counts, setCounts] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const moviesPerPage = 20;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // console.log("localStorage ", localStorage.getItem("token"));
+    if (localStorage.getItem("token") === null) {
+      navigate("/access");
+    }
+  }, []);
 
   const upcomingMovie = async () => {
     try {

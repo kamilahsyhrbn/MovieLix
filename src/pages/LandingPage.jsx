@@ -15,7 +15,7 @@ export default function LandingPage() {
         `https://api.themoviedb.org/3/movie/popular?language=en-US&page=5&api_key=${API_KEY}`,
         { header: { accept: "application/json" } }
       );
-      console.log("Response data: ", response.data);
+      // console.log("Response data: ", response.data);
       setImages(response.data.results);
       setIsLoading(false);
     } catch (error) {
