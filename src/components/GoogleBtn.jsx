@@ -1,41 +1,17 @@
 import React from "react";
-import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
 import { ToastContainer, toast } from "react-toastify";
-import BtnGoogle from "../components/BtnGoogle";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { continueWithGoogle } from "../redux/actions/authActions";
 
 export default function GoogleBtn() {
   const navigate = useNavigate();
-
-  const registerLoginGoogle = async (accessToken) => {
-    try {
-      const response = await axios.post(
-        `https://shy-cloud-3319.fly.dev/api/v1/auth/google`,
-        {
-          access_token: accessToken,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log("Response Login", response?.data);
-      if (response?.status === 200) {
-        toast.success("Welcome ✨");
-        console.log("token", response?.data?.data?.token);
-        localStorage.setItem("token", response?.data?.data?.token);
-        setTimeout(() => {
-          navigate("/home", { state: { token: response?.data?.data?.token } });
-        }, 2000);
-      }
-    } catch (error) {
-      console.log("Error Google: ", error);
-    }
-  };
+  const dispatch = useDispatch();
 
   const loginWithGoogle = useGoogleLogin({
     onSuccess: (responseGoogle) =>
-      registerLoginGoogle(responseGoogle.access_token),
+      dispatch(continueWithGoogle(responseGoogle.access_token, navigate)),
   });
 
   return (

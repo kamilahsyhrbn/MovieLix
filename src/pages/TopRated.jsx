@@ -1,63 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
-import axios from "axios";
 import { LuArrowUpDown } from "react-icons/lu";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { topRatedMovies } from "../redux/actions/moviesActions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TopMovies() {
-  const API_KEY = process.env.API_KEY;
-  const [rated, setRated] = useState([]);
   const [sorted, setSorted] = useState("vote_average.desc");
   const [currentPage, setCurrentPage] = useState(1);
   const [query, setQuery] = useState("");
-  const [counts, setCounts] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const moviesPerPage = 20;
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { topRated } = useSelector((state) => state.movie);
+  const { isLoading } = useSelector((state) => state.movie);
+  const { counts } = useSelector((state) => state.movie);
 
   useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") === null) {
-      navigate("/access");
-    }
-  }, []);
-
-  const topRated = async () => {
-    try {
-      const response = await axios.get(
-        query === ""
-          ? `https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US&page=${currentPage}&sort_by=${sorted}&without_genres=99,10755&vote_count.gte=200&api_key=${API_KEY}`
-          : `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${API_KEY}&include_adult=false&page=${currentPage}`,
-        { header: { accept: "application/json" } }
-      );
-      console.log("Response topRated: ", response.data);
-      setRated((previous) =>
-        currentPage === 1
-          ? response.data.results
-          : [...previous, ...response.data.results]
-      );
-      setCounts({
-        total_pages: response.data.total_pages,
-        total_results: response.data.total_results,
-      });
-      setIsLoading(false);
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  };
-
-  useEffect(() => {
-    topRated();
+    dispatch(topRatedMovies(query, currentPage, sorted));
   }, [currentPage, sorted, query]);
-
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = rated.slice(indexOfFirstMovie, indexOfLastMovie);
 
   const goToNextPage = () => {
     setCurrentPage((page) => page + 1);
@@ -120,7 +84,7 @@ export default function TopMovies() {
                 <option value="vote_average.desc">Top Rated Movies</option>
               </select>
             </div>
-            {rated.length === 0 ? (
+            {topRated.length === 0 ? (
               <p className="hidden"></p>
             ) : (
               <div className="flex justify-center">
@@ -166,18 +130,18 @@ export default function TopMovies() {
               </div>
             </div>
           </div>
-          {rated.length === 0 ? (
+          {topRated.length === 0 ? (
             <p className="text-white text-center">No movies found.</p>
           ) : (
             <div className="flex flex-wrap justify-center">
-              {currentMovies?.map((movie) => (
+              {topRated?.map((movie) => (
                 <div key={movie.id}>
                   <Card movie={movie} />
                 </div>
               ))}
             </div>
           )}
-          {rated.length === 0 ? (
+          {topRated.length === 0 ? (
             <p className="hidden"></p>
           ) : (
             <div className="flex justify-center">

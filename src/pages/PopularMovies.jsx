@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import { LuArrowUpDown } from "react-icons/lu";
@@ -7,57 +6,23 @@ import { FaCircleArrowRight } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { popularMovies } from "../redux/actions/moviesActions";
 
 export default function PopularMovies() {
-  const API_KEY = process.env.API_KEY;
-  const [popular, setPopular] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const [counts, setCounts] = useState("");
   const [sorted, setSorted] = useState("popularity.desc");
-  const [isLoading, setIsLoading] = useState(true);
-  const moviesPerPage = 20;
+  const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") === null) {
-      navigate("/access");
-    }
-  }, []);
-
-  const popularMovies = async () => {
-    try {
-      const response = await axios.get(
-        query === ""
-          ? `https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US&page=${currentPage}&api_key=${API_KEY}&sort_by=${sorted}`
-          : `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${API_KEY}&include_adult=false&page=${currentPage}`,
-        { header: { accept: "application/json" } }
-      );
-      console.log("Response popular: ", response.data);
-      setPopular((previous) =>
-        currentPage === 1
-          ? response.data.results
-          : [...previous, ...response.data.results]
-      );
-      setCounts({
-        total_pages: response.data.total_pages,
-      });
-      setIsLoading(false);
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  };
+  const { popular } = useSelector((state) => state.movie);
+  // console.log("popular", popular);
+  const { isLoading } = useSelector((state) => state.movie);
+  const { counts } = useSelector((state) => state.movie);
 
   useEffect(() => {
-    popularMovies();
+    dispatch(popularMovies(query, currentPage, sorted));
   }, [currentPage, sorted, query]);
-
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = popular.slice(indexOfFirstMovie, indexOfLastMovie);
 
   const goToNextPage = () => {
     setCurrentPage((page) => page + 1);
@@ -171,7 +136,7 @@ export default function PopularMovies() {
             <p className="text-white text-center">No movies found.</p>
           ) : (
             <div className="flex flex-wrap justify-center">
-              {currentMovies?.map((movie) => (
+              {popular?.map((movie) => (
                 <div key={movie.id}>
                   <Card movie={movie} />
                 </div>

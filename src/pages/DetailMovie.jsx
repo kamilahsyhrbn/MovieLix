@@ -1,48 +1,29 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import Recommendations from "../components/Recommendations";
 import Credits from "../components/Credits";
 import { IoChevronBack } from "react-icons/io5";
 import NoImage from "../assets/default_poster.jpeg";
 import NoBG from "../assets/default-bg.png";
+import { useDispatch, useSelector } from "react-redux";
+import { getDetailMovie } from "../redux/actions/moviesActions";
 
 export default function DetailMovie() {
-  const API_KEY = process.env.API_KEY;
-  const location = useLocation();
-  const [detail, setDetail] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const id = useSelector((state) => state.movie.movieId);
+  // console.log("id", id);
+  const detailMovie = useSelector((state) => state.movie.detailMovie);
+  // console.log("detail", detailMovie);
 
   useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") === null) {
-      navigate("/access");
-    }
-  }, []);
-
-  const movieDetail = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${location.state.movie}?language=en-US&api_key=${API_KEY}`,
-        { headers: { accept: "application/json" } }
-      );
-      // console.log("response detail: ", response.data);
-      setDetail(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  };
-
-  useEffect(() => {
-    movieDetail();
-  }, [detail]);
+    dispatch(getDetailMovie(id));
+  }, [dispatch, id]);
 
   return (
     <div>
-      {isLoading && (
+      {detailMovie?.isLoading && (
         <div className="h-screen flex justify-center items-center">
           <div className="flex flex-row gap-2">
             <div className="w-4 h-4 rounded-full bg-[#FF5BAE] animate-bounce"></div>
@@ -51,8 +32,8 @@ export default function DetailMovie() {
           </div>
         </div>
       )}
-      {!isLoading && (
-        <div key={detail?.id}>
+      {!detailMovie?.isLoading && (
+        <div key={detailMovie?.id}>
           <Link to={-1}>
             <div className="text-white flex items-center px-10 py-5">
               <IoChevronBack className="text-2xl" />
@@ -63,10 +44,10 @@ export default function DetailMovie() {
             <div className="w-[80%] brightness-50 ">
               <img
                 src={
-                  detail?.backdrop_path
-                    ? `https://image.tmdb.org/t/p/original${detail?.backdrop_path}`
-                    : detail?.poster_path
-                    ? `https://image.tmdb.org/t/p/original${detail?.poster_path}`
+                  detailMovie?.backdrop_path
+                    ? `https://image.tmdb.org/t/p/original${detailMovie?.backdrop_path}`
+                    : detailMovie?.poster_path
+                    ? `https://image.tmdb.org/t/p/original${detailMovie?.poster_path}`
                     : NoBG
                 }
                 className="w-full h-[500px] object-cover "
@@ -79,8 +60,8 @@ export default function DetailMovie() {
                 <div className="w-[300px]">
                   <img
                     src={
-                      detail?.poster_path
-                        ? `https://image.tmdb.org/t/p/original${detail?.poster_path}`
+                      detailMovie?.poster_path
+                        ? `https://image.tmdb.org/t/p/original${detailMovie?.poster_path}`
                         : NoImage
                     }
                     className="rounded-lg shadow-2xl "
@@ -90,25 +71,27 @@ export default function DetailMovie() {
               <div className="text-white flex flex-col h-[450px]">
                 <div className="my-auto">
                   <div className="font-semibold text-5xl mb-2">
-                    {detail?.title}
+                    {detailMovie?.title}
                   </div>
-                  <div className="mb-1">{detail?.tagline}</div>
+                  <div className="mb-1">{detailMovie?.tagline}</div>
                   <div className="flex items-center mb-1">
                     <FaStar className="mr-1 flex items-center text-yellow-300" />
-                    {detail?.vote_average.toFixed(1)}
-                    <span className="ml-3 ">({detail?.vote_count}) votes</span>
+                    {detailMovie?.vote_average.toFixed(1)}
+                    <span className="ml-3 ">
+                      ({detailMovie?.vote_count}) votes
+                    </span>
                   </div>
-                  <div className="mb-1">{detail?.runtime} mins</div>
-                  <div className="mb-1">Status : {detail?.status}</div>
+                  <div className="mb-1">{detailMovie?.runtime} mins</div>
+                  <div className="mb-1">Status : {detailMovie?.status}</div>
                   <div className="mb-1">
-                    Release date : {detail?.release_date}
+                    Release date : {detailMovie?.release_date}
                   </div>
                   <div className="mt-5">
-                    {detail?.genres.length === 0 ? (
+                    {detailMovie?.genres.length === 0 ? (
                       <span>Genre not found</span>
                     ) : (
                       <div>
-                        {detail?.genres.map((genre) => (
+                        {detailMovie?.genres.map((genre) => (
                           <span
                             key={genre?.id}
                             className="mr-3 p-2 border-2 rounded-3xl"
@@ -125,7 +108,9 @@ export default function DetailMovie() {
                     Synopsis
                   </h1>
                   <div>
-                    {detail?.overview ? detail?.overview : "No synopsis"}
+                    {detailMovie?.overview
+                      ? detailMovie?.overview
+                      : "No synopsis"}
                   </div>
                 </div>
               </div>

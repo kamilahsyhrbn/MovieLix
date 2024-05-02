@@ -3,56 +3,21 @@ import Card from "../components/Card";
 import axios from "axios";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaCircleArrowRight } from "react-icons/fa6";
+import { nowPlaying } from "../redux/actions/moviesActions";
+import { useDispatch, useSelector } from "react-redux";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 
 export default function NowPlaying() {
-  const API_KEY = process.env.API_KEY;
-  const [playing, setPlaying] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [query, setQuery] = useState("");
-  const [counts, setCounts] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const moviesPerPage = 20;
-  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
+
+  const { playing } = useSelector((state) => state.movie);
+  const { counts } = useSelector((state) => state.movie);
 
   useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") === null) {
-      navigate("/access");
-    }
-  }, []);
-
-  const nowPlaying = async () => {
-    try {
-      const response = await axios.get(
-        query === ""
-          ? `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${currentPage}&sort_by=popularity.desc&with_release_type=1|2|3|4&release_date.gte=2024-01-01&release_date.lte=2025-01-01&api_key=${API_KEY}`
-          : `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${API_KEY}&include_adult=false&page=${currentPage}`,
-        { header: { accept: "application/json" } }
-      );
-      console.log("Response Now Playing: ", response.data);
-      setPlaying((previous) =>
-        currentPage === 1
-          ? response.data.results
-          : [...previous, ...response.data.results]
-      );
-      setCounts({
-        total_pages: response.data.total_pages,
-      });
-      setIsLoading(false);
-    } catch (error) {
-      console.log("Error ", error);
-    }
-  };
-
-  useEffect(() => {
-    nowPlaying();
-  }, [currentPage, query]);
-
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = playing.slice(indexOfFirstMovie, indexOfLastMovie);
+    dispatch(nowPlaying(query, currentPage));
+  }, [query, currentPage]);
 
   const goToNextPage = () => {
     setCurrentPage((page) => page + 1);
@@ -69,7 +34,7 @@ export default function NowPlaying() {
 
   return (
     <div>
-      {isLoading && (
+      {playing?.isLoading && (
         <div className="h-screen flex justify-center items-center">
           <div className="flex flex-row gap-2">
             <div className="w-4 h-4 rounded-full bg-[#FF5BAE] animate-bounce"></div>
@@ -78,7 +43,7 @@ export default function NowPlaying() {
           </div>
         </div>
       )}
-      {!isLoading && (
+      {!playing?.isLoading && (
         <div className="pt-0 px-12 pb-12">
           <div className="m-7 mb-3 text-white text-center">
             <h2 className="text-2xl font-black tracking-widest">NOW PLAYING</h2>
@@ -132,7 +97,7 @@ export default function NowPlaying() {
             <p className="text-white text-center">No movies found.</p>
           ) : (
             <div className="flex flex-wrap justify-center">
-              {currentMovies?.map((movie) => (
+              {playing?.map((movie) => (
                 <div key={movie.id}>
                   <Card movie={movie} />
                 </div>

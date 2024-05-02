@@ -22,6 +22,9 @@ import Register from "./pages/Register.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Access from "./pages/Access.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import { Provider } from "react-redux";
+import { store, persistor } from "./redux/store.js";
+import { PersistGate } from "redux-persist/integration/react";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -55,7 +58,7 @@ const router = createBrowserRouter([
         element: <SearchMovie />,
       },
       {
-        path: "/detail-movies",
+        path: "/detail-movies/",
         element: <DetailMovie />,
       },
       {
@@ -99,9 +102,13 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  </GoogleOAuthProvider>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <React.StrictMode>
+          <RouterProvider router={router} />
+        </React.StrictMode>
+      </GoogleOAuthProvider>
+    </PersistGate>
+  </Provider>
 );

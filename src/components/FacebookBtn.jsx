@@ -2,9 +2,16 @@ import FacebookLogin from "@greatsumini/react-facebook-login";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  setToken,
+  setIsLoggedIn,
+  setUser,
+} from "../redux/reducers/authReducers";
 
 export default function FacebookBtn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const FACEBOOK_APP_ID = import.meta.env.VITE_FACEBOOK_APP_ID;
   return (
     <div className="mt-4">
@@ -12,12 +19,13 @@ export default function FacebookBtn() {
       <FacebookLogin
         appId={FACEBOOK_APP_ID}
         onSuccess={(response) => {
-          console.log("Login Success!", response);
-          localStorage.setItem("token", response?.accessToken);
+          // console.log("Login Success!", response);
+          const token = response?.accessToken;
+          // console.log("token facebook", token);
+          dispatch(setToken(token));
+          dispatch(setIsLoggedIn(true));
           setTimeout(() => {
-            navigate("/home", {
-              state: { token: response?.accessToken },
-            });
+            navigate("/home", {});
           }, 3000);
         }}
         onFail={(error) => {
@@ -25,12 +33,9 @@ export default function FacebookBtn() {
           toast.error("Failed, please try again.");
         }}
         onProfileSuccess={(response) => {
-          console.log("Get Profile Success!", response);
+          // console.log("Get Profile Success!", response);
           toast.success(`Welcome, ${response?.name}✨`);
-          localStorage.setItem("name", response?.name);
-          localStorage.setItem("email", response?.email);
-          localStorage.setItem("photo", response?.picture?.data?.url);
-          localStorage.setItem("login", "facebook component");
+          dispatch(setUser(response));
         }}
         children={
           <div className="flex items-center justify-center py-2 px-[102px] bg-white hover:bg-gray-200 text-gray-700 w-full text-center text-base font-semibold shadow-md rounded-lg">

@@ -1,21 +1,18 @@
 import { Link } from "react-router-dom";
 import NoImage from "../assets/Default_pfp.png";
-import React, { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Header() {
-  const [googleAcc, setGoogleAcc] = useState("");
-  const photo = localStorage.getItem("photo");
+  const navigate = useNavigate();
+  const data = useSelector((state) => state.auth);
+  const photo = data?.user?.picture?.data?.url;
+  // console.log("data state", data);
 
   useEffect(() => {
-    if (localStorage.getItem("login") === "google component") {
-      const decoded = jwtDecode(localStorage.getItem("token"));
-      console.log("decodedd", decoded);
-      setGoogleAcc(decoded);
-      if (decoded?.exp < new Date() / 1000) {
-        navigate("/access");
-        localStorage.removeItem("token");
-      }
+    if (data?.isLoggedIn === false) {
+      navigate("/access");
     }
   }, []);
 
@@ -50,13 +47,7 @@ export default function Header() {
         <div className="rounded-full mx-4 border p-0.5">
           <Link to="/account">
             <img
-              src={
-                photo
-                  ? photo
-                  : googleAcc?.picture
-                  ? googleAcc?.picture
-                  : NoImage
-              }
+              src={photo ? photo : NoImage}
               className="w-[20px] rounded-full object-cover"
             />
           </Link>

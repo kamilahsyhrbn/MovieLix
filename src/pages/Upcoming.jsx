@@ -1,58 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
-import axios from "axios";
 import { LuArrowUpDown } from "react-icons/lu";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { upcomingMovies } from "../redux/actions/moviesActions";
 
 export default function UpComing() {
-  const API_KEY = process.env.API_KEY;
-  const [upcoming, setUpcoming] = useState([]);
   const [sorted, setSorted] = useState("primary_release_date.desc");
   const [currentPage, setCurrentPage] = useState(1);
-  const [counts, setCounts] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const moviesPerPage = 20;
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { upcoming } = useSelector((state) => state.movie);
+  // console.log("upcoming", upcoming);
+  const { isLoading } = useSelector((state) => state.movie);
+  const { counts } = useSelector((state) => state.movie);
 
   useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") === null) {
-      navigate("/access");
-    }
-  }, []);
-
-  const upcomingMovie = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${currentPage}&sort_by=${sorted}&with_release_type=1|2|3&release_date.gte=2024-12-01&release_date.lte=2070-12-01&api_key=${API_KEY}`,
-        { header: { accept: "application/json" } }
-      );
-      console.log("Response upcomingMovie: ", response.data);
-      setUpcoming((previous) =>
-        currentPage === 1
-          ? response.data.results
-          : [...previous, ...response.data.results]
-      );
-      setCounts({
-        total_pages: response.data.total_pages,
-      });
-      setIsLoading(false);
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  };
-
-  useEffect(() => {
-    upcomingMovie();
+    dispatch(upcomingMovies(currentPage, sorted));
   }, [currentPage, sorted]);
-
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = upcoming.slice(indexOfFirstMovie, indexOfLastMovie);
 
   const goToNextPage = () => {
     setCurrentPage((page) => page + 1);
@@ -146,7 +114,7 @@ export default function UpComing() {
             </div>
           </div>
           <div className="flex flex-wrap justify-center">
-            {currentMovies?.map((movie) => (
+            {upcoming?.map((movie) => (
               <div key={movie.id}>
                 <Card movie={movie} />
               </div>

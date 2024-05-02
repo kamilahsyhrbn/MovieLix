@@ -6,27 +6,29 @@ import { useNavigate } from "react-router-dom";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import GoogleBtn from "../components/GoogleBtn";
-import BtnGoogle from "../components/BtnGoogle";
 import FacebookBtn from "../components/FacebookBtn";
+import { login } from "../redux/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [askRegister, setAskRegister] = useState("");
 
+  const data = useSelector((state) => state.auth);
+  const isUserLoggedIn = data?.isLoggedIn;
+
   useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") !== null) {
+    if (data?.isLoggedIn === true) {
       setTimeout(() => {
         navigate("/home");
       }, 4000);
       setShowPopup(true);
-      setIsUserLoggedIn(true);
     }
   }, []);
 
@@ -47,37 +49,17 @@ export default function Login() {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        `https://shy-cloud-3319.fly.dev/api/v1/auth/login`,
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log("Response Login", response?.data);
-      if (response?.status === 200) {
-        toast.success("Login Successfully!");
-        setErrorMessage("");
-        setAskRegister("");
-        // console.log("token", response?.data?.data?.token);
-        localStorage.setItem("token", response?.data?.data?.token);
-        setTimeout(() => {
-          navigate("/home", { state: { token: response?.data?.data?.token } });
-        }, 2000);
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-      const message = error?.response?.data?.message;
-      setErrorMessage(`${message}. Please try again.`);
-      if (message === "User is not found") {
-        setAskRegister("Do you have an account?");
-      } else if (message === "Email is not valid") {
-        setAskRegister("");
-      }
+    const error = await dispatch(login(email, password, navigate));
+    setErrorMessage(`${error}. Please try again.`);
+    if (error === "User is not found") {
+      setAskRegister("Do you have an account?");
+    } else if (error === "Email is not valid") {
+      setAskRegister("");
+    } else if (error === "Wrong password") {
+      setAskRegister("");
+    } else {
+      setErrorMessage("");
+      setAskRegister("");
     }
   };
 
@@ -195,8 +177,7 @@ export default function Login() {
                 ) : (
                   <div className="flex justify-center w-full items-center">
                     <div>
-                      <BtnGoogle />
-                      {/* <GoogleBtn /> */}
+                      <GoogleBtn />
                       <FacebookBtn />
                     </div>
                   </div>

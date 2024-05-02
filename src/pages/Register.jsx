@@ -6,11 +6,13 @@ import axios from "axios";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import GoogleBtn from "../components/GoogleBtn";
-import BtnGoogle from "../components/BtnGoogle";
 import FacebookBtn from "../components/FacebookBtn";
+import { register } from "../redux/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Register() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,16 +26,16 @@ export default function Register() {
   const [askLogin, setAskLogin] = useState("");
   const [random, setRandom] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  const data = useSelector((state) => state.auth);
+  const isUserLoggedIn = data?.isLoggedIn;
 
   useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") !== null) {
+    if (data?.isLoggedIn === true) {
       setTimeout(() => {
         navigate("/home");
       }, 4000);
       setShowPopup(true);
-      setIsUserLoggedIn(true);
     }
   }, []);
 
@@ -96,39 +98,18 @@ export default function Register() {
       (email.endsWith("@gmail.com") || email.endsWith("@yahoo.com")) &&
       confirmPassword === password
     ) {
-      try {
-        const response = await axios.post(
-          `https://shy-cloud-3319.fly.dev/api/v1/auth/register`,
-          {
-            email: email,
-            name: name,
-            password: password,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        console.log("Response data", response.data);
-        if (response?.status === 201) {
-          toast.success(`Successfuly registered!`);
-          setAskLogin("");
-          setRandom("");
-          setErrorRegister("");
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
-        }
-      } catch (error) {
-        console.log("Error: ", error);
-        const message = error?.response?.data?.message;
-        setErrorRegister(`Failed to register because ${message}.`);
-        if (message === "User has already registered") {
-          setAskLogin("Want to log in instead?");
-          setRandom("");
-        } else if (message === "Password must be stronger") {
-          setRandom("Do you want a random password?");
-          setAskLogin("");
-        }
+      const error = await dispatch(register(email, name, password, navigate));
+      setErrorRegister(`Failed to register because ${error}.`);
+      if (error === "User has already registered") {
+        setAskLogin("Want to log in instead?");
+        setRandom("");
+      } else if (error === "Password must be stronger") {
+        setRandom("Do you want a random password?");
+        setAskLogin("");
+      } else {
+        setErrorRegister("");
+        setAskLogin("");
+        setRandom("");
       }
     }
   };
@@ -300,8 +281,7 @@ export default function Register() {
                     </button>
                   ) : (
                     <div>
-                      {/* <GoogleBtn /> */}
-                      <BtnGoogle />
+                      <GoogleBtn />
                       <FacebookBtn />
                     </div>
                   )}

@@ -5,23 +5,24 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 import Modal from "react-modal";
+import { useSelector } from "react-redux";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const data = useSelector((state) => state.auth);
+  const isUserLoggedIn = data?.isLoggedIn;
+
   useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") !== null) {
+    if (data?.isLoggedIn === true) {
       setTimeout(() => {
         navigate("/home");
       }, 4000);
       setShowPopup(true);
-      setIsUserLoggedIn(true);
     }
   }, []);
 

@@ -1,71 +1,33 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import NoImage from "../assets/Default_pfp.png";
+import React, { useEffect } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile, logout } from "../redux/actions/authActions";
 
 export default function Account() {
-  const [profile, setProfile] = useState("");
   const navigate = useNavigate();
-  const [googleAcc, setGoogleAcc] = useState("");
-  // console.log("location ", localStorage.getItem("token"));
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") === null) {
-      navigate("/access");
-    }
-  }, []);
-
-  const token = localStorage.getItem("token");
-  const name = localStorage.getItem("name");
-  const email = localStorage.getItem("email");
-  const photo = localStorage.getItem("photo");
+  const { user } = useSelector((state) => state.auth);
+  // console.log("user", user);
+  const photo = user?.picture?.data?.url;
 
   useEffect(() => {
     const account = async () => {
-      if (localStorage.getItem("login") === "google component") {
-        const decoded = jwtDecode(localStorage.getItem("token"));
-        console.log("decodedd", decoded);
-        setGoogleAcc(decoded);
-        if (decoded?.exp < new Date() / 1000) {
-          navigate("/access");
-          localStorage.removeItem("token");
-        }
-      } else if (localStorage.getItem("login") === null) {
-        try {
-          const response = await axios.get(
-            `https://shy-cloud-3319.fly.dev/api/v1/auth/me`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          // console.log("Response data", response.data);
-          setProfile(response.data.data);
-        } catch (error) {
-          console.log("Error: ", error);
-        }
-      }
+      dispatch(getProfile());
     };
     account();
   }, []);
 
-  const logout = () => {
+  const keluar = () => {
     confirmAlert({
       message: "Are you sure you want to log out?",
       buttons: [
         {
           label: "Yes",
           onClick: () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("name");
-            localStorage.removeItem("email");
-            localStorage.removeItem("photo");
-            localStorage.removeItem("login");
+            dispatch(logout(navigate));
             navigate("/");
           },
         },
@@ -83,28 +45,30 @@ export default function Account() {
         <h2 className="text-3xl font-black tracking-widest">My Account</h2>
       </div>
       <div className="flex flex-col justify-center items-center text-white ">
-        <img
-          src={
-            photo ? photo : googleAcc?.picture ? googleAcc?.picture : NoImage
-          }
-          className="rounded-full w-[200px] object-cover"
-        />
+        {!photo ? (
+          <iframe
+            src="https://lottie.host/embed/1efe2b57-ae85-4c38-877d-5c3c5059e165/RxUpR8qJ9p.json"
+            className="rounded-full w-[200px] object-cover"
+          ></iframe>
+        ) : (
+          <img src={photo} className="rounded-full w-[200px]" />
+        )}
         <table className="my-5">
           <tbody className="text-xl">
-            {profile?.name ? (
+            {user?.name ? (
               <>
                 <tr>
                   <td>Name </td>
                   <td>:</td>
-                  <td>{profile?.name} </td>
+                  <td>{user?.name} </td>
                 </tr>
                 <tr>
                   <td>Email </td>
                   <td>:</td>
-                  <td>{profile?.email} </td>
+                  <td>{user?.email} </td>
                 </tr>
               </>
-            ) : name ? (
+            ) : (
               <>
                 <tr>
                   {/* <td>Sorry, we didn't get your account details 🙇‍♀️</td> */}
@@ -118,20 +82,6 @@ export default function Account() {
                   <td>{email} </td>
                 </tr>
               </>
-            ) : (
-              <>
-                <tr>
-                  {/* <td>Sorry, we didn't get your account details 🙇‍♀️</td> */}
-                  <td>Name </td>
-                  <td>:</td>
-                  <td>{googleAcc?.name} </td>
-                </tr>
-                <tr>
-                  <td>Email </td>
-                  <td>:</td>
-                  <td>{googleAcc?.email} </td>
-                </tr>
-              </>
             )}
           </tbody>
         </table>
@@ -139,7 +89,7 @@ export default function Account() {
       </div>
       <div className="text-white flex justify-center">
         <button
-          onClick={logout}
+          onClick={keluar}
           className="p-2 bg-[#FF5BAE] w-[80px] rounded-lg mt-3 hover:bg-[#db4992]"
         >
           Logout

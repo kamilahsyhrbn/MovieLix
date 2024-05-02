@@ -12,7 +12,7 @@ export default function LandingPage() {
   const carousel = async () => {
     try {
       const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/popular?language=en-US&page=5&api_key=${API_KEY}`,
+        `https://api.themoviedb.org/3/movie/popular?language=en-US&page=8&api_key=${API_KEY}`,
         { header: { accept: "application/json" } }
       );
       // console.log("Response data: ", response.data);

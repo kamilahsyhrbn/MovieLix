@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
-
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function Access() {
   const navigate = useNavigate();
+
+  const data = useSelector((state) => state.auth);
+  const isUserLoggedIn = data?.isLoggedIn;
+
   useEffect(() => {
-    console.log("localStorage ", localStorage.getItem("token"));
-    if (localStorage.getItem("token") === null) {
+    if (isUserLoggedIn === false) {
       setTimeout(() => {
         navigate("/login");
       }, 3000);
-    } else if (localStorage.getItem("token") !== null) {
+    } else {
       navigate("/home");
     }
   }, []);
