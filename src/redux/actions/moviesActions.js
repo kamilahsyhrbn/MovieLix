@@ -110,7 +110,6 @@ export const searchMovie = (query, currentPage) => async (dispatch) => {
     if (response.data.total_results === 0) {
       dispatch(setSearch([]));
       dispatch(setIsLoading(false));
-      return "Not Found";
     } else {
       const search = response?.data?.results;
       const total_pages = response?.data?.total_pages;

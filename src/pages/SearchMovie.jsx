@@ -18,10 +18,6 @@ export default function SearchMovie() {
   const { counts } = useSelector((state) => state.movie);
   // console.log("counts", counts);
 
-  // const notifyError = () => {
-  //   toast.error("Movies not found. Please input another title!");
-  // };
-
   useEffect(() => {
     dispatch(searchMovie(query, currentPage));
   }, [currentPage, query]);
