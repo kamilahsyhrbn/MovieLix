@@ -12,8 +12,7 @@ export default function NowPlaying() {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
 
-  const { playing } = useSelector((state) => state.movie);
-  const { counts } = useSelector((state) => state.movie);
+  const { playing, counts } = useSelector((state) => state.movie);
 
   useEffect(() => {
     dispatch(nowPlaying(query, currentPage));

@@ -13,10 +13,8 @@ export default function UpComing() {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
 
-  const { upcoming } = useSelector((state) => state.movie);
+  const { upcoming, isLoading, counts } = useSelector((state) => state.movie);
   // console.log("upcoming", upcoming);
-  const { isLoading } = useSelector((state) => state.movie);
-  const { counts } = useSelector((state) => state.movie);
 
   useEffect(() => {
     dispatch(upcomingMovies(currentPage, sorted));

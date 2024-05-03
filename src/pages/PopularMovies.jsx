@@ -15,10 +15,8 @@ export default function PopularMovies() {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
 
-  const { popular } = useSelector((state) => state.movie);
+  const { popular, isLoading, counts } = useSelector((state) => state.movie);
   // console.log("popular", popular);
-  const { isLoading } = useSelector((state) => state.movie);
-  const { counts } = useSelector((state) => state.movie);
 
   useEffect(() => {
     dispatch(popularMovies(query, currentPage, sorted));

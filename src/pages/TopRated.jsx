@@ -15,9 +15,7 @@ export default function TopMovies() {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
 
-  const { topRated } = useSelector((state) => state.movie);
-  const { isLoading } = useSelector((state) => state.movie);
-  const { counts } = useSelector((state) => state.movie);
+  const { topRated, isLoading, counts } = useSelector((state) => state.movie);
 
   useEffect(() => {
     dispatch(topRatedMovies(query, currentPage, sorted));

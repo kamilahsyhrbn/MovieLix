@@ -22,10 +22,9 @@ export default function MovieList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { popular } = useSelector((state) => state.movie);
-  const { topRated } = useSelector((state) => state.movie);
-  const { upcoming } = useSelector((state) => state.movie);
-  const { playing } = useSelector((state) => state.movie);
+  const { popular, topRated, upcoming, playing } = useSelector(
+    (state) => state.movie
+  );
 
   //PROFILE
   useEffect(() => {
