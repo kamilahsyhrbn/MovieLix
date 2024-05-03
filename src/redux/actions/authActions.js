@@ -14,9 +14,8 @@ export const login = (email, password, navigate) => async (dispatch) => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log("Response Login", response?.data);
+    // console.log("Response Login", response?.data);
     if (response?.status === 200) {
-      toast.success("Login Successfully!");
       const { data } = response?.data;
       const { token } = data;
       dispatch(setToken(token));
@@ -74,13 +73,12 @@ export const continueWithGoogle =
       );
       console.log("Response Login", response?.data);
       if (response?.status === 200) {
-        toast.success("Welcome ✨");
-
         const { token } = response?.data?.data;
         // console.log("token google", token);
         dispatch(setToken(token));
         dispatch(setIsLoggedIn(true));
         setTimeout(() => {
+          toast.success("Welcome ✨");
           navigate("/home");
         }, 2000);
       }
@@ -113,5 +111,5 @@ export const logout = (navigate) => async (dispatch) => {
   dispatch(setIsLoggedIn(false));
   dispatch(setUser(null));
 
-  if (navigate) navigate("/");
+  navigate("/");
 };

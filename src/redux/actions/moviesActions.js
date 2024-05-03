@@ -16,6 +16,7 @@ import {
 // FOR HOMEPAGE
 export const getCarousel = () => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/popular?language=en-US&page=9&api_key=${API_KEY}`,
@@ -32,6 +33,7 @@ export const getCarousel = () => async (dispatch) => {
 
 export const getPopularMovies = () => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
   try {
     const response = await axios.get(
       ` https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US&page=1&api_key=${API_KEY}`,
@@ -48,6 +50,7 @@ export const getPopularMovies = () => async (dispatch) => {
 
 export const getTopRatedMovies = () => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=${API_KEY}`,
@@ -63,6 +66,7 @@ export const getTopRatedMovies = () => async (dispatch) => {
 
 export const getUpcomingMovies = () => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&&with_release_type=1|2|3&release_date.gte=2026-01-01&release_date.lte=2070-01-01&api_key=${API_KEY}&page=1`,
@@ -96,15 +100,16 @@ export const getNowPlayingMovies = () => async (dispatch) => {
 // MOVIES PER PAGE
 export const searchMovie = (query, currentPage) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
+
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${API_KEY}&include_adult=false&page=${currentPage}`,
       { header: { accept: "application/json" } }
     );
-    console.log("Response search: ", response.data);
+    // console.log("Response search: ", response.data);
     if (response.data.total_results === 0) {
       dispatch(setSearch([]));
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
       return "Not Found";
     } else {
       const search = response?.data?.results;
@@ -149,6 +154,7 @@ export const getCreditsMovie = (id) => async (dispatch) => {
     const credits = response?.data?.cast;
     // console.log("credits", credits);
     dispatch(setCredits(credits));
+    dispatch(setIsLoading(false));
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -165,6 +171,7 @@ export const getRecommendationMovies = (id) => async (dispatch) => {
     const recc = response?.data?.results.slice(0, 10);
     // console.log("recc", recc);
     dispatch(setRecommendation(recc));
+    dispatch(setIsLoading(false));
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -202,7 +209,7 @@ export const popularMovies =
           : `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${API_KEY}&include_adult=false&page=${currentPage}`,
         { header: { accept: "application/json" } }
       );
-      console.log("Response popular: ", response.data);
+      // console.log("Response popular: ", response.data);
       const popular = response?.data?.results;
       const total_pages = response?.data?.total_pages;
       const total_results = response?.data?.total_results;
@@ -224,7 +231,7 @@ export const topRatedMovies =
           : `https://api.themoviedb.org/3/search/movie?query=${query}&api_key=${API_KEY}&include_adult=false&page=${currentPage}`,
         { header: { accept: "application/json" } }
       );
-      console.log("Response topRated: ", response.data);
+      // console.log("Response topRated: ", response.data);
       const topRated = response?.data?.results;
       const total_pages = response?.data?.total_pages;
       const total_results = response?.data?.total_results;

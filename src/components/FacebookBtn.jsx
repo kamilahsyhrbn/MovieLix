@@ -25,7 +25,7 @@ export default function FacebookBtn() {
           dispatch(setToken(token));
           dispatch(setIsLoggedIn(true));
           setTimeout(() => {
-            navigate("/home", {});
+            navigate("/home");
           }, 3000);
         }}
         onFail={(error) => {

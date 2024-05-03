@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,9 +18,9 @@ export default function SearchMovie() {
   const { counts } = useSelector((state) => state.movie);
   // console.log("counts", counts);
 
-  const notifyError = () => {
-    toast.error("Movies not found. Please input another title!");
-  };
+  // const notifyError = () => {
+  //   toast.error("Movies not found. Please input another title!");
+  // };
 
   useEffect(() => {
     dispatch(searchMovie(query, currentPage));

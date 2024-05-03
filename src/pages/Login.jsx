@@ -60,6 +60,7 @@ export default function Login() {
     } else {
       setErrorMessage("");
       setAskRegister("");
+      toast.success("Login Successfully!");
     }
   };
 

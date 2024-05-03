@@ -1,6 +1,5 @@
 import { useRouteError } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Animation from "../assets/Animation.gif";
 
 export default function ErrorPage() {
   const error = useRouteError();
@@ -10,7 +9,6 @@ export default function ErrorPage() {
     <div className="flex flex-col items-center py-12 text-white">
       <h1 className="text-3xl text-bold">Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
-      <img src={Animation} />
       <p>
         <i>{error.statusText || error.message}</i>
       </p>

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import NoImage from "../assets/Default_pfp.png";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +29,6 @@ export default function Account() {
           label: "Yes",
           onClick: () => {
             dispatch(logout(navigate));
-            navigate("/");
           },
         },
         {
@@ -46,10 +46,7 @@ export default function Account() {
       </div>
       <div className="flex flex-col justify-center items-center text-white ">
         {!photo ? (
-          <iframe
-            src="https://lottie.host/embed/1efe2b57-ae85-4c38-877d-5c3c5059e165/RxUpR8qJ9p.json"
-            className="rounded-full w-[200px] object-cover"
-          ></iframe>
+          <img src={NoImage} className="rounded-full w-[200px]" />
         ) : (
           <img src={photo} className="rounded-full w-[200px]" />
         )}
@@ -71,15 +68,7 @@ export default function Account() {
             ) : (
               <>
                 <tr>
-                  {/* <td>Sorry, we didn't get your account details 🙇‍♀️</td> */}
-                  <td>Name </td>
-                  <td>:</td>
-                  <td>{name} </td>
-                </tr>
-                <tr>
-                  <td>Email </td>
-                  <td>:</td>
-                  <td>{email} </td>
+                  <td>Sorry, we didn't get your account details 🙇‍♀️</td>
                 </tr>
               </>
             )}

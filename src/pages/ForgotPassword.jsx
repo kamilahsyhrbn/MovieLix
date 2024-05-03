@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 import Modal from "react-modal";
@@ -52,7 +51,7 @@ export default function Login() {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log("Response Login", response?.data);
+      // console.log("Response Login", response?.data);
     } catch (error) {
       console.log("Error: ", error);
       const message = error?.response?.data?.message;
@@ -96,7 +95,6 @@ export default function Login() {
 
   return (
     <div>
-      <ToastContainer />
       {showPopup && (
         <div className="bg-[#FF5BAE] text-white rounded-sm text-xl p-3 text-center">
           <p>You can't access this page, because your token is still active.</p>
