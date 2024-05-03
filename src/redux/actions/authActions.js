@@ -45,7 +45,7 @@ export const register = (email, name, password, navigate) => async () => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log("Response register", response?.data);
+    // console.log("Response register", response?.data);
     if (response?.status === 201) {
       toast.success(`Successfuly registered!`);
       setTimeout(() => {
@@ -71,7 +71,7 @@ export const continueWithGoogle =
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log("Response Login", response?.data);
+      // console.log("Response Login", response?.data);
       if (response?.status === 200) {
         const { token } = response?.data?.data;
         // console.log("token google", token);

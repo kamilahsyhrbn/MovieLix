@@ -88,7 +88,7 @@ export default function MovieList() {
           <div className="slider-container">
             <div className="m-7 mb-5 ml-3 text-white text-center">
               <h1 className="text-4xl font-black">
-                Welcome Back, {user?.name ? user?.name : name} ✨
+                Welcome Back, {user?.name} ✨
               </h1>
             </div>
             <div className="m-7 mb-5 ml-3 text-white flex justify-between items-center">
