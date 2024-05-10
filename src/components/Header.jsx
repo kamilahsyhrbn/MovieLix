@@ -20,12 +20,12 @@ export default function Header() {
     <div className="mx-10 my-5 bg-transparent flex justify-between ">
       <div className="mx-3">
         <Link to="/home">
-          <h2 className="text-3xl font-bold text-[#FF5BAE] flex items-center">
+          <h2 className="text-3xl font-bold text-[#FF5BAE] flex items-center max-sm:text-xl">
             Movie<span className="text-white"> Lix</span>
           </h2>
         </Link>
       </div>
-      <div className="flex items-center text-white">
+      <div className="flex items-center text-white max-sm:hidden">
         <div className="transition ease-in-out mx-4 hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
           <Link to="/home">Home</Link>
         </div>

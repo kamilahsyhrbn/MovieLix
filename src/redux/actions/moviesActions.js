@@ -128,6 +128,7 @@ export const searchMovie = (query, currentPage) => async (dispatch) => {
 export const getDetailMovie = (id) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
   dispatch(setIsLoading(true));
+  dispatch(setDetailMovie());
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=${API_KEY}`,
@@ -145,6 +146,7 @@ export const getDetailMovie = (id) => async (dispatch) => {
 export const getCreditsMovie = (id) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
   dispatch(setIsLoading(true));
+  // dispatch(setCredits());
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${API_KEY}`
@@ -162,6 +164,7 @@ export const getCreditsMovie = (id) => async (dispatch) => {
 export const getRecommendationMovies = (id) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
   dispatch(setIsLoading(true));
+  // dispatch(setRecommendation());
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US&page=1&api_key=${API_KEY}`

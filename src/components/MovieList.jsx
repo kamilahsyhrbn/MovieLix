@@ -86,17 +86,18 @@ export default function MovieList() {
         <div className="pt-0 px-12 pb-12">
           <div className="slider-container">
             <div className="m-7 mb-5 ml-3 text-white text-center">
-              <h1 className="text-4xl font-black">
+              <h1 className="text-4xl font-black max-sm:text-xl">
                 Welcome Back, {user?.name} ✨
               </h1>
             </div>
+            {/* Popular */}
             <div className="m-7 mb-5 ml-3 text-white flex justify-between items-center">
-              <h2 className="text-2xl font-black tracking-widest">
+              <h2 className="text-2xl font-black tracking-widest max-sm:text-base">
                 POPULAR MOVIES
               </h2>
               <Link to="/popular-movies">
-                <span className="text-yellow-300 flex items-center">
-                  View all <FaArrowRightLong className="text-yellow-300 ml-1" />
+                <span className="text-yellow-300 flex items-center max-sm:text-sm">
+                  View all
                 </span>
               </Link>
             </div>
@@ -109,14 +110,14 @@ export default function MovieList() {
                 ))}
               </Slider>
             </div>
-
+            {/* NOW PLAYING */}
             <div className="grid grid-cols-2 my-7 max-sm:grid-cols-1">
               <div className="text-white">
-                <h1 className="text-3xl font-black tracking-widest mb-3">
+                <h1 className="text-3xl font-black tracking-widest mb-3 max-sm:text-base">
                   NOW PLAYING
                 </h1>
                 <div className="flex flex-col items-start">
-                  <span className="mb-3">
+                  <span className="mb-3 max-sm:text-sm">
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                     Excepturi itaque recusandae expedita assumenda nesciunt eum
                     quas, cupiditate nisi dignissimos deleniti consectetur!
@@ -124,7 +125,7 @@ export default function MovieList() {
                     molestias?
                   </span>
                   <Link to="/now-playing">
-                    <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FF5BAE]">
+                    <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FF5BAE] max-sm:mb-3">
                       See More
                     </button>
                   </Link>
@@ -171,14 +172,14 @@ export default function MovieList() {
                 </Slider>
               </div>
             </div>
-
+            {/* UPCOMING */}
             <div className="mx-7 my-5 ml-3 text-white flex justify-between items-center">
-              <h2 className="text-2xl font-black tracking-widest">
+              <h2 className="text-2xl font-black tracking-widest max-sm:text-base">
                 UPCOMING MOVIES
               </h2>
               <Link to="/upcoming">
-                <span className="text-yellow-300 flex items-center">
-                  View all <FaArrowRightLong className="text-yellow-300 ml-1" />
+                <span className="text-yellow-300 flex items-center max-sm:text-sm">
+                  View all
                 </span>
               </Link>
             </div>
@@ -191,6 +192,7 @@ export default function MovieList() {
                 ))}
               </Slider>
             </div>
+            {/* TOP RATED */}
             <div className="grid grid-cols-2 my-7 max-sm:grid-cols-1">
               <div>
                 <Slider {...settings2}>
@@ -232,12 +234,13 @@ export default function MovieList() {
                   ))}
                 </Slider>
               </div>
-              <div className="text-white flex flex-col items-end">
-                <h1 className="text-3xl font-black tracking-widest mb-3">
+
+              <div className="text-white flex flex-col items-end max-sm:items-start">
+                <h1 className="text-3xl font-black tracking-widest mb-3 max-sm:text-base">
                   TOP RATED MOVIES
                 </h1>
 
-                <span className="mb-3 text-end">
+                <span className="mb-3 text-end max-sm:text-start">
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                   Excepturi itaque recusandae expedita assumenda nesciunt eum
                   quas, cupiditate nisi dignissimos deleniti consectetur!

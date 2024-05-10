@@ -33,55 +33,57 @@ export default function Home() {
         )}
         {!carousel?.isLoading && (
           <div>
-            <Carousel
-              autoPlay={true}
-              infiniteLoop={true}
-              showArrows={false}
-              transitionTime={4}
-              showStatus={false}
-              showIndicators={false}
-              showThumbs={false}
-              stopOnHover={false}
-            >
-              {carousel?.map((movie) => (
-                <div
-                  key={movie.id}
-                  onClick={() => {
-                    navigate("/detail-movies");
-                    dispatch(setMovieId(movie.id));
-                  }}
-                >
-                  <div className="h-[600px]">
-                    <img
-                      src={
-                        movie.backdrop_path
-                          ? `https://image.tmdb.org/t/p/original${
-                              movie && movie.backdrop_path
-                            }`
-                          : movie?.poster_path
-                          ? `https://image.tmdb.org/t/p/original${
-                              movie && movie.poster_path
-                            }`
-                          : NoBG
-                      }
-                      className="m-auto w-[100%] block"
-                    />
-                  </div>
-                  <div className="absolute bottom-0 left-0 w-full h-70 flex flex-col justify-end items-start p-20 bg-gradient-to-b from-transparent to-black transition-opacity text-white ">
-                    <div className="font-black text-6xl">{movie?.title}</div>
-                    <div className="text-xl my-1">{movie?.release_date}</div>
-                    <div className="flex items-center">
-                      <FaStar className="text-yellow-300 mr-1" />
-                      {movie?.vote_average.toFixed(1)}
+            <div className="max-sm:hidden">
+              <Carousel
+                autoPlay={true}
+                infiniteLoop={true}
+                showArrows={false}
+                transitionTime={4}
+                showStatus={false}
+                showIndicators={false}
+                showThumbs={false}
+                stopOnHover={false}
+              >
+                {carousel?.map((movie) => (
+                  <div
+                    key={movie.id}
+                    onClick={() => {
+                      navigate("/detail-movies");
+                      dispatch(setMovieId(movie.id));
+                    }}
+                  >
+                    <div className="h-[600px]">
+                      <img
+                        src={
+                          movie.backdrop_path
+                            ? `https://image.tmdb.org/t/p/original${
+                                movie && movie.backdrop_path
+                              }`
+                            : movie?.poster_path
+                            ? `https://image.tmdb.org/t/p/original${
+                                movie && movie.poster_path
+                              }`
+                            : NoBG
+                        }
+                        className="m-auto w-[100%] block max-md:h-[100%]"
+                      />
                     </div>
-                    <div className="flex text-left italic text-sm mt-1">
-                      {movie?.overview}
+                    <div className="absolute bottom-0 left-0 w-full h-70 flex flex-col justify-end items-start p-20 bg-gradient-to-b from-transparent to-black transition-opacity text-white ">
+                      <div className="font-black text-6xl">{movie?.title}</div>
+                      <div className="text-xl my-1">{movie?.release_date}</div>
+                      <div className="flex items-center">
+                        <FaStar className="text-yellow-300 mr-1" />
+                        {movie?.vote_average.toFixed(1)}
+                      </div>
+                      <div className="flex text-left italic text-sm mt-1">
+                        {movie?.overview}
+                      </div>
                     </div>
+                    {/* </Link> */}
                   </div>
-                  {/* </Link> */}
-                </div>
-              ))}
-            </Carousel>
+                ))}
+              </Carousel>
+            </div>
             <MovieList />
           </div>
         )}

@@ -24,7 +24,9 @@ export default function SearchMovie() {
   };
 
   const goToNextPage = () => {
-    setCurrentPage((page) => page + 1);
+    if (currentPage !== counts?.total_pages) {
+      setCurrentPage((page) => page + 1);
+    }
   };
 
   const goToPrevPage = () => {
@@ -85,7 +87,7 @@ export default function SearchMovie() {
                       <button className="text-2xl ml-2" onClick={goToNextPage}>
                         <FaCircleArrowRight
                           className={`${
-                            currentPage === counts
+                            currentPage === counts.total_pages
                               ? "text-[#564d4d] hover:text-[#564d4d]/50"
                               : "text-[#FF5BAE] hover:text-[#FF5BAE]/50"
                           }`}
