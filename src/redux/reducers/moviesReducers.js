@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   movieId: null,
+  personId: null,
   popular: [],
   search: [],
   detailMovie: null,
@@ -13,6 +14,10 @@ const initialState = {
   carousel: [],
   isLoading: true,
   counts: {},
+  video: null,
+  person: [],
+  images: [],
+  personCredits: [],
 };
 
 const movieSlicer = createSlice({
@@ -22,9 +27,11 @@ const movieSlicer = createSlice({
     setMovieId: (state, action) => {
       state.movieId = action.payload;
     },
+    setPersonId: (state, action) => {
+      state.personId = action.payload;
+    },
     setPopular: (state, action) => {
       state.popular = action.payload;
-      //   console.log("action", action);
     },
     setSearch: (state, action) => {
       state.search = action.payload;
@@ -56,11 +63,24 @@ const movieSlicer = createSlice({
     setCounts: (state, action) => {
       state.counts = action.payload;
     },
+    setVideo: (state, action) => {
+      state.video = action.payload;
+    },
+    setPerson: (state, action) => {
+      state.person = action.payload;
+    },
+    setImages: (state, action) => {
+      state.images = action.payload;
+    },
+    setPersonCredits: (state, action) => {
+      state.personCredits = action.payload;
+    },
   },
 });
 
 export const {
   setMovieId,
+  setPersonId,
   setPopular,
   setSearch,
   setDetailMovie,
@@ -72,6 +92,10 @@ export const {
   setCarousel,
   setIsLoading,
   setCounts,
+  setVideo,
+  setPerson,
+  setImages,
+  setPersonCredits,
 } = movieSlicer.actions;
 
 export default movieSlicer.reducer;

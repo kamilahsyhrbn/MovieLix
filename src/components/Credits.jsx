@@ -6,13 +6,16 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 import { getCreditsMovie } from "../redux/actions/moviesActions";
+import { useNavigate } from "react-router-dom";
+import { setPersonId } from "../redux/reducers/moviesReducers";
 
 export default function Credits() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const id = useSelector((state) => state.movie.movieId);
   const credit = useSelector((state) => state.movie.credits);
-  // console.log("credits", credit);
+
   useEffect(() => {
     dispatch(getCreditsMovie(id));
   }, [dispatch, id]);
@@ -29,19 +32,25 @@ export default function Credits() {
     <div>
       {credit.length === 0 ? (
         <div className="mx-10 relative bottom-[200px] text-white mb-10">
-          <h2 className="text-3xl font-black mb-3">Cast</h2>
+          <h2 className="text-3xl font-black mb-3">CAST</h2>
           <h3>No cast information available for this movie.</h3>
         </div>
       ) : (
         <div className="mx-10 relative bottom-[200px]">
           <div className="text-white mb-5">
-            <h2 className="text-3xl font-black">Cast</h2>
+            <h2 className="text-3xl font-black">CAST</h2>
           </div>
 
           <div className="">
             <Slider {...settings}>
               {credit?.map((movie) => (
-                <div key={movie.id}>
+                <div
+                  key={movie.id}
+                  onClick={() => {
+                    navigate("/detail-person");
+                    dispatch(setPersonId(movie?.id));
+                  }}
+                >
                   <div className="inline-block relative overflow-hidden m-1 min-w-[200px] h-[300px] z-0 rounded-md  w-[80px]">
                     <img
                       src={

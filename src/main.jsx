@@ -25,6 +25,7 @@ import ForgotPassword from "./pages/ForgotPassword.jsx";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store.js";
 import { PersistGate } from "redux-persist/integration/react";
+import DetailPerson from "./pages/DetailPerson.jsx";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "/account",
         element: <Account />,
+      },
+      {
+        path: "/detail-person",
+        element: <DetailPerson />,
       },
     ],
   },

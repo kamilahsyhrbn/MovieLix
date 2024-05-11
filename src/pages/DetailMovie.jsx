@@ -7,7 +7,11 @@ import { IoChevronBack } from "react-icons/io5";
 import NoImage from "../assets/default_poster.jpeg";
 import NoBG from "../assets/default-bg.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetailMovie } from "../redux/actions/moviesActions";
+import {
+  getDetailMovie,
+  getTrailerMovies,
+} from "../redux/actions/moviesActions";
+import { IoPlayCircle } from "react-icons/io5";
 
 export default function DetailMovie() {
   const dispatch = useDispatch();
@@ -17,9 +21,17 @@ export default function DetailMovie() {
   const detailMovie = useSelector((state) => state.movie.detailMovie);
   // console.log("detail", detailMovie);
 
+  const { video } = useSelector((state) => state.movie);
+  // console.log("video", video);
+
   useEffect(() => {
     dispatch(getDetailMovie(id));
+    dispatch(getTrailerMovies(id));
   }, [dispatch, id]);
+
+  const Trailer = () => {
+    window.open(`https://www.youtube.com/watch?v=${video?.key}`, "_blank");
+  };
 
   return (
     <div>
@@ -67,9 +79,17 @@ export default function DetailMovie() {
                     className="rounded-lg shadow-2xl "
                   />
                 </div>
+                {video?.key ? (
+                  <div className="bg-[#FF5BAE] hover:bg-[#db4992] text-white my-4 flex items-center justify-center p-2 rounded-full text-xl w-52 mx-auto">
+                    <button onClick={Trailer}>Watch Trailer</button>
+                    <IoPlayCircle className="ml-2 text-3xl" />
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
-              <div className="text-white flex flex-col h-[450px]">
-                <div className="my-auto">
+              <div className="text-white flex flex-col h-[480px]">
+                <div className="mb-auto">
                   <div className="font-semibold text-5xl mb-2">
                     {detailMovie?.title}
                   </div>
@@ -103,7 +123,7 @@ export default function DetailMovie() {
                     )}
                   </div>
                 </div>
-                <div className="my-auto">
+                <div className="mb-auto">
                   <h1 className="mb-5 text-2xl font-semibold flex relative items-center">
                     Synopsis
                   </h1>

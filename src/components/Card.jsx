@@ -40,7 +40,6 @@ export default function Card({ movie }) {
             </div>
           </div>
         </div>
-        {/* </Link> */}
       </div>
     </>
   );

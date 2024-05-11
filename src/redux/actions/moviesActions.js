@@ -11,6 +11,10 @@ import {
   setIsLoading,
   setCarousel,
   setCounts,
+  setVideo,
+  setPerson,
+  setImages,
+  setPersonCredits,
 } from "../reducers/moviesReducers";
 
 // FOR HOMEPAGE
@@ -19,7 +23,7 @@ export const getCarousel = () => async (dispatch) => {
   dispatch(setIsLoading(true));
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/popular?language=en-US&page=9&api_key=${API_KEY}`,
+      `https://api.themoviedb.org/3/movie/popular?language=en-US&page=5&api_key=${API_KEY}`,
       { header: { accept: "application/json" } }
     );
     // console.log("Response carousel: ", response.data);
@@ -173,6 +177,76 @@ export const getRecommendationMovies = (id) => async (dispatch) => {
     const recc = response?.data?.results.slice(0, 10);
     // console.log("recc", recc);
     dispatch(setRecommendation(recc));
+    dispatch(setIsLoading(false));
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export const getTrailerMovies = (id) => async (dispatch) => {
+  const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&page=1&api_key=${API_KEY}`
+    );
+    // console.log("Response trailer: ", response.data.results);
+    const video = response?.data?.results.find(
+      (video) => video.type === "Trailer"
+    );
+    // console.log("video", video);
+    dispatch(setVideo(video));
+    dispatch(setIsLoading(false));
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export const getDetailPerson = (id) => async (dispatch) => {
+  const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
+  dispatch(setPerson());
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/person/${id}?language=en-US&page=1&api_key=${API_KEY}`
+    );
+    // console.log("Response person: ", response.data);
+    const person = response?.data;
+    dispatch(setPerson(person));
+    dispatch(setIsLoading(false));
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export const getPersonImages = (id) => async (dispatch) => {
+  const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
+  dispatch(setImages());
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/person/${id}/images?language=en-US&page=1&api_key=${API_KEY}`
+    );
+    // console.log("Response person images: ", response.data);
+    const images = response?.data?.profiles;
+    dispatch(setImages(images));
+    dispatch(setIsLoading(false));
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export const getPersonCredits = (id) => async (dispatch) => {
+  const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
+  dispatch(setPersonCredits());
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/person/${id}/movie_credits?language=en-US&page=1&api_key=${API_KEY}`
+    );
+    // console.log("Response person credits: ", response.data);
+    const credits = response?.data?.cast;
+    dispatch(setPersonCredits(credits));
     dispatch(setIsLoading(false));
   } catch (error) {
     console.log("Error: ", error);
