@@ -38,7 +38,7 @@ export default function Recommendations() {
             <h2 className="text-3xl font-black">RECOMMENDATIONS</h2>
           </div>
 
-          <div className="">
+          <div>
             <Slider {...settings}>
               {recommendation?.map((movie) => (
                 <div key={movie.id}>

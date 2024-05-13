@@ -150,7 +150,7 @@ export const getDetailMovie = (id) => async (dispatch) => {
 export const getCreditsMovie = (id) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
   dispatch(setIsLoading(true));
-  // dispatch(setCredits());
+  dispatch(setCredits([]));
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${API_KEY}`
