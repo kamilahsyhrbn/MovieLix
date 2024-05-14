@@ -26,7 +26,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
       }, 2000);
     }
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
     const message = error?.response?.data?.message;
     return message;
   }
@@ -53,7 +53,7 @@ export const register = (email, name, password, navigate) => async () => {
       }, 2000);
     }
   } catch (error) {
-    console.log("Error Register: ", error);
+    // console.log("Error Register: ", error);
     const message = error?.response?.data?.message;
     return message;
   }
@@ -83,7 +83,7 @@ export const continueWithGoogle =
         }, 2000);
       }
     } catch (error) {
-      console.log("Error Google: ", error);
+      // console.log("Error Google: ", error);
     }
   };
 
@@ -102,7 +102,7 @@ export const getProfile = () => async (dispatch, getState) => {
     // console.log("Response data", data.data);
     dispatch(setUser(data?.data));
   } catch (error) {
-    console.log("Error Profile: ", error);
+    // console.log("Error Profile: ", error);
   }
 };
 

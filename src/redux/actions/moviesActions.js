@@ -33,7 +33,7 @@ export const getCarousel = () => async (dispatch) => {
     dispatch(setCarousel(carousel));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -50,7 +50,7 @@ export const getPopularMovies = () => async (dispatch) => {
     dispatch(setPopular(popular));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -66,7 +66,7 @@ export const getTopRatedMovies = () => async (dispatch) => {
     dispatch(setTopRated(topRated));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -82,7 +82,7 @@ export const getUpcomingMovies = () => async (dispatch) => {
     dispatch(setUpcoming(upcoming));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -97,7 +97,7 @@ export const getNowPlayingMovies = () => async (dispatch) => {
     dispatch(setPlaying(nowPlaying));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error ", error);
+    // console.log("Error ", error);
   }
 };
 
@@ -127,7 +127,7 @@ export const searchMovie = (query, currentPage) => async (dispatch) => {
       dispatch(setIsLoading(false));
     }
   } catch (error) {
-    console.log("Error search: ", error.response.data.status_message);
+    // console.log("Error search: ", error.response.data.status_message);
   }
 };
 
@@ -145,7 +145,7 @@ export const getDetailMovie = (id) => async (dispatch) => {
     dispatch(setDetailMovie(detailMovie));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error?.response?.data?.status_message);
+    // console.log("Error: ", error?.response?.data?.status_message);
   }
 };
 
@@ -163,7 +163,7 @@ export const getCreditsMovie = (id) => async (dispatch) => {
     dispatch(setCredits(credits));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -181,7 +181,7 @@ export const getRecommendationMovies = (id) => async (dispatch) => {
     dispatch(setRecommendation(recc));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -198,7 +198,7 @@ export const getTrailerMovies = (id) => async (dispatch) => {
     dispatch(setVideo(video));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -214,7 +214,7 @@ export const getUserReviews = (id) => async (dispatch) => {
     dispatch(setReviews(reviews));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -230,7 +230,7 @@ export const getWatchProviders = (id) => async (dispatch) => {
     dispatch(setWatch(providers));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -247,7 +247,7 @@ export const getDetailPerson = (id) => async (dispatch) => {
     dispatch(setPerson(person));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -264,7 +264,7 @@ export const getPersonImages = (id) => async (dispatch) => {
     dispatch(setImages(images));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -281,7 +281,7 @@ export const getPersonCredits = (id) => async (dispatch) => {
     dispatch(setPersonCredits(credits));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };
 
@@ -303,7 +303,7 @@ export const nowPlaying = (query, currentPage) => async (dispatch) => {
     dispatch(setCounts({ total_pages, total_results }));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error ", error);
+    // console.log("Error ", error);
   }
 };
 
@@ -325,7 +325,7 @@ export const popularMovies =
       dispatch(setCounts({ total_pages, total_results }));
       dispatch(setIsLoading(false));
     } catch (error) {
-      console.log("Error: ", error);
+      // console.log("Error: ", error);
     }
   };
 
@@ -347,7 +347,7 @@ export const topRatedMovies =
       dispatch(setCounts({ total_pages, total_results }));
       dispatch(setIsLoading(false));
     } catch (error) {
-      console.log("Error: ", error);
+      // console.log("Error: ", error);
     }
   };
 
@@ -367,6 +367,6 @@ export const upcomingMovies = (currentPage, sorted) => async (dispatch) => {
     dispatch(setCounts({ total_pages, total_results }));
     dispatch(setIsLoading(false));
   } catch (error) {
-    console.log("Error: ", error);
+    // console.log("Error: ", error);
   }
 };

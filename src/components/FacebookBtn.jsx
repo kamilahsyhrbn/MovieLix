@@ -29,7 +29,7 @@ export default function FacebookBtn() {
           }, 3000);
         }}
         onFail={(error) => {
-          console.log("Login Failed!", error);
+          // console.log("Login Failed!", error);
           toast.error("Failed, please try again.");
         }}
         onProfileSuccess={(response) => {
