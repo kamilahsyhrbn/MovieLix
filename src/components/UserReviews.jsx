@@ -18,7 +18,7 @@ export default function UserReviews() {
   return (
     <div>
       {reviews?.length === 0 ? (
-        <div className="mx-10 relative bottom-[150px] text-white mb-10">
+        <div className="mx-10 relative bottom-[200px] text-white mb-10">
           <h2 className="text-3xl font-black mb-4">USER REVIEWS</h2>
           <h3>No user reviews for this movie.</h3>
         </div>
