@@ -8,7 +8,6 @@ export default function Header() {
   const navigate = useNavigate();
   const data = useSelector((state) => state.auth);
   const photo = data?.user?.picture?.data?.url;
-  // console.log("data state", data);
 
   useEffect(() => {
     if (data?.isLoggedIn === false) {
@@ -25,7 +24,7 @@ export default function Header() {
           </h2>
         </Link>
       </div>
-      <div className="flex items-center text-white max-sm:hidden">
+      <div className="flex items-center text-white">
         <div className="transition ease-in-out mx-4 hover:-translate-y-1 hover:scale-110 hover:text-[#FF5BAE] ">
           <Link to="/home">Home</Link>
         </div>

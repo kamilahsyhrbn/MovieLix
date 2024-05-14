@@ -15,7 +15,7 @@ export default function Recommendations() {
 
   useEffect(() => {
     dispatch(getRecommendationMovies(id));
-  }, []);
+  }, [dispatch, id]);
 
   const settings = {
     infinite: true,
@@ -28,7 +28,7 @@ export default function Recommendations() {
   return (
     <div>
       {recommendation?.length === 0 ? (
-        <div className="mx-10 relative bottom-[100px] text-white mb-10">
+        <div className="mx-10 relative bottom-[200px] text-white mb-10">
           <h2 className="text-3xl font-black mb-4">RECOMMENDATIONS</h2>
           <h3>No recommendations available at the moment.</h3>
         </div>

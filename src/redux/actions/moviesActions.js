@@ -15,6 +15,7 @@ import {
   setPerson,
   setImages,
   setPersonCredits,
+  setReviews,
 } from "../reducers/moviesReducers";
 
 // FOR HOMEPAGE
@@ -168,7 +169,7 @@ export const getCreditsMovie = (id) => async (dispatch) => {
 export const getRecommendationMovies = (id) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
   dispatch(setIsLoading(true));
-  // dispatch(setRecommendation());
+  dispatch(setRecommendation([]));
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US&page=1&api_key=${API_KEY}`
@@ -202,10 +203,26 @@ export const getTrailerMovies = (id) => async (dispatch) => {
   }
 };
 
+export const getUserReviews = (id) => async (dispatch) => {
+  const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
+  dispatch(setReviews([]));
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1&api_key=${API_KEY}`
+    );
+    const reviews = response?.data?.results;
+    dispatch(setReviews(reviews));
+    dispatch(setIsLoading(false));
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
 export const getDetailPerson = (id) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
   dispatch(setIsLoading(true));
-  dispatch(setPerson());
+  dispatch(setPerson([]));
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/person/${id}?language=en-US&page=1&api_key=${API_KEY}`
@@ -222,7 +239,7 @@ export const getDetailPerson = (id) => async (dispatch) => {
 export const getPersonImages = (id) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
   dispatch(setIsLoading(true));
-  dispatch(setImages());
+  dispatch(setImages([]));
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/person/${id}/images?language=en-US&page=1&api_key=${API_KEY}`
@@ -239,7 +256,7 @@ export const getPersonImages = (id) => async (dispatch) => {
 export const getPersonCredits = (id) => async (dispatch) => {
   const API_KEY = process.env.API_KEY;
   dispatch(setIsLoading(true));
-  dispatch(setPersonCredits());
+  dispatch(setPersonCredits([]));
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/person/${id}/movie_credits?language=en-US&page=1&api_key=${API_KEY}`
