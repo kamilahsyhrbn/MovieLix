@@ -16,6 +16,7 @@ import {
   setImages,
   setPersonCredits,
   setReviews,
+  setWatch,
 } from "../reducers/moviesReducers";
 
 // FOR HOMEPAGE
@@ -191,11 +192,9 @@ export const getTrailerMovies = (id) => async (dispatch) => {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&page=1&api_key=${API_KEY}`
     );
-    // console.log("Response trailer: ", response.data.results);
     const video = response?.data?.results.find(
       (video) => video.type === "Trailer"
     );
-    // console.log("video", video);
     dispatch(setVideo(video));
     dispatch(setIsLoading(false));
   } catch (error) {
@@ -213,6 +212,22 @@ export const getUserReviews = (id) => async (dispatch) => {
     );
     const reviews = response?.data?.results;
     dispatch(setReviews(reviews));
+    dispatch(setIsLoading(false));
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export const getWatchProviders = (id) => async (dispatch) => {
+  const API_KEY = process.env.API_KEY;
+  dispatch(setIsLoading(true));
+  dispatch(setWatch([]));
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/watch/providers?language=en-US&page=1&api_key=${API_KEY}`
+    );
+    const providers = response?.data?.results?.ID?.flatrate;
+    dispatch(setWatch(providers));
     dispatch(setIsLoading(false));
   } catch (error) {
     console.log("Error: ", error);

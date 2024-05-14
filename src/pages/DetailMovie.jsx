@@ -13,6 +13,7 @@ import {
 } from "../redux/actions/moviesActions";
 import { IoPlayCircle } from "react-icons/io5";
 import UserReviews from "../components/UserReviews";
+import WatchProviders from "../components/WatchProviders";
 
 export default function DetailMovie() {
   const dispatch = useDispatch();
@@ -137,6 +138,7 @@ export default function DetailMovie() {
               </div>
             </div>
           </div>
+          <WatchProviders />
           <Credits />
           <Recommendations />
           <UserReviews />

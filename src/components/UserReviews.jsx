@@ -9,7 +9,7 @@ export default function UserReviews() {
   const dispatch = useDispatch();
   const id = useSelector((state) => state.movie.movieId);
   const { reviews } = useSelector((state) => state.movie);
-  console.log("reviews", reviews);
+  //   console.log("reviews", reviews);
 
   useEffect(() => {
     dispatch(getUserReviews(id));
@@ -28,7 +28,7 @@ export default function UserReviews() {
             <h2 className="text-3xl font-black">USER REVIEWS</h2>
           </div>
           {reviews?.map((movie) => (
-            <article className="text-white">
+            <div key={movie?.id} className="text-white">
               <div className="flex items-center mb-3">
                 <img
                   className="w-10 h-10 me-4 rounded-full"
@@ -39,23 +39,23 @@ export default function UserReviews() {
                   }
                 />
                 <div className="text-xl">
-                  <p>
+                  <div>
                     {movie?.author}
                     <div className="flex items-center mb-1 text-sm">
                       <FaStar className="mr-1 flex items-center text-yellow-300" />
                       {movie?.author_details?.rating}
                       <span className="ml-1">out of 10</span>
                     </div>
-                  </p>
+                  </div>
                 </div>
               </div>
 
-              <footer className="mb-5 text-sm">
+              <div className="mb-5 text-sm">
                 <p>
                   Reviewed on{" "}
                   {new Date(movie?.created_at).toLocaleString("en-GB")}
                 </p>
-              </footer>
+              </div>
               <p className="mb-2">{movie?.content.slice(0, 500) + "..."}</p>
               <a
                 href={movie?.url}
@@ -65,7 +65,7 @@ export default function UserReviews() {
                 Read more
               </a>
               <hr className="mb-5 border-gray-200" />
-            </article>
+            </div>
           ))}
         </div>
       )}

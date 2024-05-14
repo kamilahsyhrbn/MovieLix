@@ -19,6 +19,7 @@ const initialState = {
   images: [],
   personCredits: [],
   reviews: [],
+  watch: [],
 };
 
 const movieSlicer = createSlice({
@@ -79,6 +80,9 @@ const movieSlicer = createSlice({
     setReviews: (state, action) => {
       state.reviews = action.payload;
     },
+    setWatch: (state, action) => {
+      state.watch = action.payload;
+    },
   },
 });
 
@@ -101,6 +105,7 @@ export const {
   setImages,
   setPersonCredits,
   setReviews,
+  setWatch,
 } = movieSlicer.actions;
 
 export default movieSlicer.reducer;
