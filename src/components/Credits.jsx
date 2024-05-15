@@ -6,14 +6,14 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 import { getCreditsMovie } from "../redux/actions/moviesActions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { setPersonId } from "../redux/reducers/moviesReducers";
 
 export default function Credits() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const id = useSelector((state) => state.movie.movieId);
+  const { id } = useParams();
+  // const id = useSelector((state) => state.movie.movieId);
   const credit = useSelector((state) => state.movie.credits);
 
   useEffect(() => {

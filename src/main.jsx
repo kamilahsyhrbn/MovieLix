@@ -59,7 +59,7 @@ const router = createBrowserRouter([
         element: <SearchMovie />,
       },
       {
-        path: "/detail-movies/",
+        path: "/detail-movies/:id",
         element: <DetailMovie />,
       },
       {

@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getWatchProviders } from "../redux/actions/moviesActions";
+import { useParams } from "react-router-dom";
 
 export default function WatchProviders() {
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.movie.movieId);
+  const { id } = useParams();
+  // const id = useSelector((state) => state.movie.movieId);
   const { watch } = useSelector((state) => state.movie);
-  console.log("watch", watch);
 
   useEffect(() => {
     dispatch(getWatchProviders(id));

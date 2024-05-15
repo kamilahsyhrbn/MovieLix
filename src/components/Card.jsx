@@ -1,19 +1,26 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
 import NoImage from "../assets/default_poster.jpeg";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setMovieId } from "../redux/reducers/moviesReducers.js";
 
 export default function Card({ movie }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const handleMovieClick = (id) => {
+    navigate(`/detail-movies/${id}`);
+  };
+
   return (
     <>
+      {/* <div
+        onClick={() => {
+          navigate(`/detail-movies/`);
+          dispatch(setMovieId(movie.id));
+        }}
+      > */}
       <div
         onClick={() => {
-          navigate("/detail-movies");
-          dispatch(setMovieId(movie.id));
+          handleMovieClick(movie.id);
         }}
       >
         <div className="inline-block transition-transform relative overflow-hidden m-1 min-w-[200px] h-[300px] z-0 shadow-xl rounded-md hover:scale-110 hover:z-[1000] ">

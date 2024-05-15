@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import Recommendations from "../components/Recommendations";
 import Credits from "../components/Credits";
@@ -7,6 +7,7 @@ import { IoChevronBack } from "react-icons/io5";
 import NoImage from "../assets/default_poster.jpeg";
 import NoBG from "../assets/default-bg.png";
 import { useDispatch, useSelector } from "react-redux";
+import { HiShare } from "react-icons/hi";
 import {
   getDetailMovie,
   getTrailerMovies,
@@ -14,17 +15,33 @@ import {
 import { IoPlayCircle } from "react-icons/io5";
 import UserReviews from "../components/UserReviews";
 import WatchProviders from "../components/WatchProviders";
+import {
+  EmailShareButton,
+  EmailIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  XIcon,
+  TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  LineIcon,
+  LineShareButton,
+} from "react-share";
 
 export default function DetailMovie() {
+  const [buttonOpen, setButtonOpen] = useState(false);
+  const showContent = () => {
+    setButtonOpen(!buttonOpen);
+  };
+
   const dispatch = useDispatch();
-
-  const id = useSelector((state) => state.movie.movieId);
-  // console.log("id", id);
+  const { id } = useParams();
   const detailMovie = useSelector((state) => state.movie.detailMovie);
-  // console.log("detail", detailMovie);
-
   const { video } = useSelector((state) => state.movie);
-  // console.log("video", video);
+  const shareUrl = `https://movielix.vercel.app/detail-movies/${id}`;
+  const title = "MovieLix";
 
   useEffect(() => {
     dispatch(getDetailMovie(id));
@@ -82,14 +99,158 @@ export default function DetailMovie() {
                   />
                 </div>
                 {video?.key ? (
-                  <div className="bg-[#FF5BAE] hover:bg-[#db4992] text-white my-4 flex items-center justify-center p-2 rounded-full text-xl w-52 mx-auto">
-                    <button onClick={Trailer}>Watch Trailer</button>
-                    <IoPlayCircle className="ml-2 text-3xl" />
+                  <div>
+                    <div className="flex">
+                      <div
+                        onClick={Trailer}
+                        className="bg-[#FF5BAE] hover:bg-[#db4992] text-white my-4 flex items-center justify-center p-2 rounded-lg text-xl w-32 mx-2"
+                      >
+                        <IoPlayCircle className="mr-2 text-2xl" />
+                        <button>Trailer</button>
+                      </div>
+                      <div
+                        onClick={showContent}
+                        className="bg-[#FF5BAE] hover:bg-[#db4992] text-white my-4 flex items-center justify-center p-2 rounded-lg text-xl w-28 mx-auto"
+                      >
+                        <HiShare className="mr-2 text-2xl" />
+                        <button>Share</button>
+                      </div>
+                    </div>
+                    {buttonOpen && (
+                      <div className="flex justify-evenly">
+                        <div className="Demo__some-network">
+                          <FacebookShareButton
+                            url={shareUrl}
+                            className="Demo__some-network__share-button"
+                          >
+                            <FacebookIcon size={32} round />
+                          </FacebookShareButton>
+                        </div>
+                        <div className="Demo__some-network">
+                          <TwitterShareButton
+                            url={shareUrl}
+                            title={title}
+                            className="Demo__some-network__share-button"
+                          >
+                            <XIcon size={32} round />
+                          </TwitterShareButton>
+                        </div>
+
+                        <div className="Demo__some-network">
+                          <TelegramShareButton
+                            url={shareUrl}
+                            title={title}
+                            className="Demo__some-network__share-button"
+                          >
+                            <TelegramIcon size={32} round />
+                          </TelegramShareButton>
+                        </div>
+
+                        <div className="Demo__some-network">
+                          <WhatsappShareButton
+                            url={shareUrl}
+                            title={title}
+                            separator=":: "
+                            className="Demo__some-network__share-button"
+                          >
+                            <WhatsappIcon size={32} round />
+                          </WhatsappShareButton>
+                        </div>
+                        <div className="Demo__some-network">
+                          <LineShareButton
+                            url={shareUrl}
+                            title={title}
+                            className="Demo__some-network__share-button"
+                          >
+                            <LineIcon size={32} round />
+                          </LineShareButton>
+                        </div>
+                        <div className="Demo__some-network">
+                          <EmailShareButton
+                            url={shareUrl}
+                            subject={title}
+                            className="Demo__some-network__share-button"
+                          >
+                            <EmailIcon size={32} round />
+                          </EmailShareButton>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
-                  ""
+                  <div>
+                    <div
+                      onClick={showContent}
+                      className="bg-[#FF5BAE] hover:bg-[#db4992] text-white my-4 flex items-center justify-center p-2 rounded-lg text-xl w-48 mx-auto"
+                    >
+                      <HiShare className="mr-2 text-2xl" />
+                      <button>Share</button>
+                    </div>
+                    {buttonOpen && (
+                      <div className="flex justify-evenly">
+                        <div className="Demo__some-network">
+                          <FacebookShareButton
+                            url={shareUrl}
+                            className="Demo__some-network__share-button"
+                          >
+                            <FacebookIcon size={32} round />
+                          </FacebookShareButton>
+                        </div>
+                        <div className="Demo__some-network">
+                          <TwitterShareButton
+                            url={shareUrl}
+                            title={title}
+                            className="Demo__some-network__share-button"
+                          >
+                            <XIcon size={32} round />
+                          </TwitterShareButton>
+                        </div>
+
+                        <div className="Demo__some-network">
+                          <TelegramShareButton
+                            url={shareUrl}
+                            title={title}
+                            className="Demo__some-network__share-button"
+                          >
+                            <TelegramIcon size={32} round />
+                          </TelegramShareButton>
+                        </div>
+
+                        <div className="Demo__some-network">
+                          <WhatsappShareButton
+                            url={shareUrl}
+                            title={title}
+                            separator=":: "
+                            className="Demo__some-network__share-button"
+                          >
+                            <WhatsappIcon size={32} round />
+                          </WhatsappShareButton>
+                        </div>
+                        <div className="Demo__some-network">
+                          <LineShareButton
+                            url={shareUrl}
+                            title={title}
+                            className="Demo__some-network__share-button"
+                          >
+                            <LineIcon size={32} round />
+                          </LineShareButton>
+                        </div>
+                        <div className="Demo__some-network">
+                          <EmailShareButton
+                            url={shareUrl}
+                            subject={title}
+                            // body="body"
+                            className="Demo__some-network__share-button"
+                          >
+                            <EmailIcon size={32} round />
+                          </EmailShareButton>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
+
               <div className="text-white flex flex-col h-[480px]">
                 <div className="mb-auto">
                   <div className="font-semibold text-5xl mb-2">

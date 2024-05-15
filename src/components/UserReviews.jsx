@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserReviews } from "../redux/actions/moviesActions";
 import { FaStar } from "react-icons/fa";
 import NoImage from "../assets/Default_pfp.png";
+import { useParams } from "react-router-dom";
 
 export default function UserReviews() {
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.movie.movieId);
+  const { id } = useParams();
+  // const id = useSelector((state) => state.movie.movieId);
   const { reviews } = useSelector((state) => state.movie);
-  //   console.log("reviews", reviews);
+  // console.log("reviews", reviews);
+
+  const [isContentFull, setIsContentFull] = useState(false);
+  const handleReadMoreClick = (id) => {
+    setIsContentFull(isContentFull === id ? false : id);
+  };
 
   useEffect(() => {
     dispatch(getUserReviews(id));
@@ -56,14 +63,18 @@ export default function UserReviews() {
                   {new Date(movie?.created_at).toLocaleString("en-GB")}
                 </p>
               </div>
-              <p className="mb-2">{movie?.content.slice(0, 500) + "..."}</p>
-              <a
-                href={movie?.url}
-                target="_blank"
+              <p className="mb-2">
+                {" "}
+                {isContentFull === movie?.id
+                  ? movie?.content
+                  : movie?.content.slice(0, 500) + "..."}
+              </p>
+              <p
                 className="block mb-5 text-sm font-medium text-[#FF5BAE] hover:text-[#db4992] hover:underline"
+                onClick={() => handleReadMoreClick(movie.id)}
               >
-                Read more
-              </a>
+                {isContentFull === movie.id ? "Read less" : "Read more"}
+              </p>
               <hr className="mb-5 border-gray-200" />
             </div>
           ))}

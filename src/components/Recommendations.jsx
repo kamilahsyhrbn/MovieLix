@@ -6,10 +6,13 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecommendationMovies } from "../redux/actions/moviesActions";
+import { useParams } from "react-router-dom";
 
 export default function Recommendations() {
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.movie.movieId);
+
+  const { id } = useParams();
+  // const id = useSelector((state) => state.movie.movieId);
   const recommendation = useSelector((state) => state.movie.recommendation);
   // console.log("recommendation", recommendation);
 

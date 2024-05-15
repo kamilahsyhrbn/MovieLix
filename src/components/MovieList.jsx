@@ -3,13 +3,11 @@ import { useEffect } from "react";
 import Card from "./Card";
 import { Link, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-import { FaArrowRightLong } from "react-icons/fa6";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../redux/actions/authActions";
-import { setMovieId } from "../redux/reducers/moviesReducers.js";
 import NoBG from "../assets/default-bg.png";
 import {
   getPopularMovies,
@@ -25,6 +23,10 @@ export default function MovieList() {
   const { popular, topRated, upcoming, playing } = useSelector(
     (state) => state.movie
   );
+
+  const handleMovieClick = (id) => {
+    navigate(`/detail-movies/${id}`);
+  };
 
   //PROFILE
   useEffect(() => {
@@ -137,8 +139,7 @@ export default function MovieList() {
                     <div
                       key={movie.id}
                       onClick={() => {
-                        navigate("/detail-movies");
-                        dispatch(setMovieId(movie.id));
+                        handleMovieClick(movie.id);
                       }}
                     >
                       <div className="inline-block transition-transform relative m-1 min-w-[200px] rounded-xl h-[300px] z-0 shadow-xl hover:z-[1000] ">
@@ -200,8 +201,7 @@ export default function MovieList() {
                     <div
                       key={movie.id}
                       onClick={() => {
-                        navigate("/detail-movies");
-                        dispatch(setMovieId(movie.id));
+                        handleMovieClick(movie.id);
                       }}
                     >
                       <div className="inline-block transition-transform relative m-1 min-w-[200px] rounded-xl h-[300px] z-0 shadow-xl hover:z-[1000] ">

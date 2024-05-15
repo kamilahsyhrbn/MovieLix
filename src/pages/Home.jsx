@@ -15,6 +15,10 @@ export default function Home() {
   const dispatch = useDispatch();
   const { carousel } = useSelector((state) => state.movie);
 
+  const handleMovieClick = (id) => {
+    navigate(`/detail-movies/${id}`);
+  };
+
   useEffect(() => {
     dispatch(getCarousel());
   }, [dispatch, navigate]);
@@ -48,8 +52,7 @@ export default function Home() {
                   <div
                     key={movie.id}
                     onClick={() => {
-                      navigate("/detail-movies");
-                      dispatch(setMovieId(movie.id));
+                      handleMovieClick(movie.id);
                     }}
                   >
                     <div className="h-[600px]">
