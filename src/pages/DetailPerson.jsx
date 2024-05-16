@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDetailPerson,
@@ -12,8 +12,41 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Card from "../components/Card";
+import Modal from "react-modal";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 export default function DetailPerson() {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "transparent",
+      padding: "20px",
+      borderRadius: "5px",
+      border: "none",
+      maxWidth: "450px",
+      width: "50%",
+    },
+  };
+
+  Modal.setAppElement("#root");
+
+  const handlePhotoClick = (img) => {
+    setSelectedPhoto(img);
+  };
+
+  function closeModal() {
+    setModalIsOpen(false);
+  }
+
   const dispatch = useDispatch();
 
   const id = useSelector((state) => state.movie.personId);
@@ -92,6 +125,7 @@ export default function DetailPerson() {
           </div>
         </div>
       </div>
+
       <div className="text-white mx-20 mb-10">
         {images?.length === 0 ? (
           <div>
@@ -104,7 +138,12 @@ export default function DetailPerson() {
             <Slider {...settings}>
               {images?.map((img) => (
                 <div key={img?.file_path}>
-                  <div className="inline-block transition-transform relative overflow-hidden m-1 min-w-[200px] h-[300px] z-0 shadow-xl rounded-md hover:scale-110 hover:z-[1000] ">
+                  <div
+                    className="inline-block transition-transform relative overflow-hidden m-1 min-w-[200px] h-[300px] z-0 shadow-xl rounded-md hover:scale-110 hover:z-[1000] "
+                    onClick={() => {
+                      setModalIsOpen(true), handlePhotoClick(img?.file_path);
+                    }}
+                  >
                     <img
                       src={
                         img?.file_path
@@ -124,9 +163,28 @@ export default function DetailPerson() {
                 </div>
               ))}
             </Slider>
+            <Modal
+              isOpen={modalIsOpen}
+              style={customStyles}
+              onRequestClose={closeModal}
+            >
+              <div>
+                <Zoom>
+                  <img
+                    src={
+                      selectedPhoto
+                        ? `https://image.tmdb.org/t/p/original${selectedPhoto}`
+                        : NoImage
+                    }
+                    className="h-[600px] object-cover m-auto w-auto"
+                  />
+                </Zoom>
+              </div>
+            </Modal>
           </div>
         )}
       </div>
+
       <div className="text-white mx-20 mb-10">
         {personCredits?.length === 0 ? (
           <div>

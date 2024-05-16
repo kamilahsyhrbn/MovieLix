@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 export default function WatchProviders() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  // const id = useSelector((state) => state.movie.movieId);
   const { watch } = useSelector((state) => state.movie);
 
   useEffect(() => {
@@ -20,11 +19,11 @@ export default function WatchProviders() {
           <h3>No watch providers found for this movie in your country.</h3>
         </div>
       ) : (
-        <div className="mx-10 relative bottom-[230px]">
+        <div className="mx-10 relative bottom-[230px] max-sm:my-12">
           <div className="text-white mb-5">
             <h2 className="text-3xl font-black">WATCH PROVIDERS</h2>
           </div>
-          <div className="flex mx-4">
+          <div className="flex mx-4 max-sm:inline max-sm:mx-0">
             {watch?.map((movie) => (
               <div key={movie?.provider_id} className="text-white">
                 <div className="flex items-center mb-3">

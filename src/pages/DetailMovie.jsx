@@ -72,7 +72,7 @@ export default function DetailMovie() {
             </div>
           </Link>
           <div className="w-full relative flex flex-col items-center">
-            <div className="w-[80%] brightness-50 ">
+            <div className="w-[80%] brightness-50 max-sm:w-[100%]">
               <img
                 src={
                   detailMovie?.backdrop_path
@@ -86,7 +86,7 @@ export default function DetailMovie() {
               />
             </div>
 
-            <div className="items-center w-[75%] flex relative bottom-[280px]">
+            <div className="items-center w-[75%] flex relative bottom-[280px] max-sm:grid">
               <div className="mr-8">
                 <div className="w-[300px]">
                   <img
@@ -286,7 +286,7 @@ export default function DetailMovie() {
                     )}
                   </div>
                 </div>
-                <div className="mb-auto">
+                <div className="mb-auto max-sm:mt-8">
                   <h1 className="mb-5 text-2xl font-semibold flex relative items-center">
                     Synopsis
                   </h1>
