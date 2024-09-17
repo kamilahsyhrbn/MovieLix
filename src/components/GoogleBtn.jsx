@@ -18,7 +18,7 @@ export default function GoogleBtn() {
     <div>
       <ToastContainer />
       <div
-        className="flex items-center justify-center py-2 px-[102px] bg-white hover:bg-gray-200 text-gray-700 w-full text-center text-base font-semibold shadow-md rounded-lg"
+        className="flex items-center justify-center py-2 px-8 bg-white hover:bg-gray-200 text-gray-700 w-72 text-center text-base font-semibold shadow-md rounded-lg"
         onClick={() => loginWithGoogle()}
       >
         <svg

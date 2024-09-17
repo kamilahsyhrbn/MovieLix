@@ -43,11 +43,11 @@ export default function NowPlaying() {
         </div>
       )}
       {!playing?.isLoading && (
-        <div className="pt-0 px-12 pb-12">
+        <div className="pt-0 md:px-4 pb-12">
           <div className="m-7 mb-3 text-white text-center">
             <h2 className="text-2xl font-black tracking-widest">NOW PLAYING</h2>
           </div>
-          <div className="m-7 text-white justify-between flex items-center">
+          <div className="m-7 text-white justify-between flex items-center flex-col md:flex-row gap-5 md:gap-0">
             <div className="flex items-center">
               <div className="relative">
                 <input

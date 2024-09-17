@@ -37,7 +37,7 @@ export default function Home() {
         )}
         {!carousel?.isLoading && (
           <div>
-            <div className="max-sm:hidden">
+            <div className="">
               <Carousel
                 autoPlay={true}
                 infiniteLoop={true}
@@ -47,6 +47,7 @@ export default function Home() {
                 showIndicators={false}
                 showThumbs={false}
                 stopOnHover={false}
+                interval={5000}
               >
                 {carousel?.map((movie) => (
                   <div
@@ -55,7 +56,7 @@ export default function Home() {
                       handleMovieClick(movie.id);
                     }}
                   >
-                    <div className="h-[600px]">
+                    <div className="h-max lg:h-[700px]">
                       <img
                         src={
                           movie.backdrop_path
@@ -68,21 +69,29 @@ export default function Home() {
                               }`
                             : NoBG
                         }
-                        className="m-auto w-[100%] block max-md:h-[100%]"
+                        className="m-auto w-full block h-full flex-shrink-0 object-cover"
                       />
                     </div>
-                    <div className="absolute bottom-0 left-0 w-full h-70 flex flex-col justify-end items-start p-20 bg-gradient-to-b from-transparent to-black transition-opacity text-white ">
-                      <div className="font-black text-6xl">{movie?.title}</div>
-                      <div className="text-xl my-1">{movie?.release_date}</div>
-                      <div className="flex items-center">
+                    <div className="absolute bottom-0 left-0 w-full flex flex-col justify-end items-start px-10 py-9 bg-gradient-to-b from-transparent to-black transition-opacity text-white ">
+                      <div className="font-black text-xl md:text-4xl lg:text-6xl">
+                        {movie?.title}
+                      </div>
+                      <div className="md:text-xl my-1">
+                        {" "}
+                        {new Date(movie?.release_date).toLocaleString("en-EN", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </div>
+                      <div className="flex items-center text-sm md:text-md">
                         <FaStar className="text-yellow-300 mr-1" />
                         {movie?.vote_average.toFixed(1)}
                       </div>
-                      <div className="flex text-left italic text-sm mt-1">
+                      <div className="hidden md:flex text-left italic mt-2">
                         {movie?.overview}
                       </div>
                     </div>
-                    {/* </Link> */}
                   </div>
                 ))}
               </Carousel>

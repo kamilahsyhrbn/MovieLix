@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { searchMovie } from "../redux/actions/moviesActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,20 +56,20 @@ export default function SearchMovie() {
               placeholder="Search..."
               value={query}
               onChange={handleChange}
-              className="p-2 border outline-none focus:border-yellow-400 rounded-lg mb-4 w-72"
+              className="p-2 border outline-none focus:border-[#FF5BAE] rounded-lg mb-4 w-72"
             />
             <div>
               <div>
                 {search.length === 0 ? (
                   <p className="hidden"></p>
                 ) : (
-                  <div className="container m-auto flex justify-between mb-5 ">
+                  <div className="m-auto mx-10 flex flex-col md:flex-row md:justify-between mb-5 items-center">
                     <h4 className="text-white text-lg font-bold text-start ">
                       Total {query.toLocaleUpperCase()} :{" "}
                       {counts?.total_results} movies in {counts?.total_pages}{" "}
                       pages
                     </h4>
-                    <div className="text-white flex items-center">
+                    <div className="text-white flex items-center justify-center">
                       <button
                         className="text-2xl mr-2"
                         onClick={goToPrevPage}
@@ -100,11 +100,21 @@ export default function SearchMovie() {
             </div>
             <div>
               <div className="flex flex-wrap justify-center">
-                {search?.length === 0 ? (
-                  <p className="text-white text-xl">No movies.</p>
+                {search?.length === 0 && query ? (
+                  <p className="text-white text-xl">
+                    No movies found for{" "}
+                    <span className="text-[#FF5BAE] italic font-medium">
+                      {query}
+                    </span>
+                    .
+                  </p>
+                ) : search?.length === 0 && !query ? (
+                  <p className="text-white text-xl">
+                    Search for your favorite movies
+                  </p>
                 ) : (
                   search?.map((movie) => (
-                    <div key={movie.id}>
+                    <div key={movie.id} className="md:mx-3">
                       <Card movie={movie} />
                     </div>
                   ))

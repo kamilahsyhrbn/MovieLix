@@ -12,12 +12,6 @@ export default function Card({ movie }) {
 
   return (
     <>
-      {/* <div
-        onClick={() => {
-          navigate(`/detail-movies/`);
-          dispatch(setMovieId(movie.id));
-        }}
-      > */}
       <div
         onClick={() => {
           handleMovieClick(movie.id);
@@ -36,10 +30,14 @@ export default function Card({ movie }) {
           <div className="text-white absolute bottom-0 h-[290px] min-w-[200px] flex flex-col pt-0 pb-4 px-4 justify-end bg-gradient-to-b from-transparent to-black transition-opacity duration-200 opacity-0 hover:opacity-100">
             <div className="font-black text-base">{movie?.title}</div>
             <div className="flex justify-between items-center text-xs mb-1">
-              {movie?.release_date}
+              {new Date(movie?.release_date).toLocaleString("en-EN", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
               <span className="mt-1 flex items-center">
                 <FaStar className="mr-1 text-yellow-300" />
-                {movie?.vote_average}
+                {parseFloat(movie?.vote_average).toFixed(1)}
               </span>
             </div>
             <div className="italic text-xs mb-1">

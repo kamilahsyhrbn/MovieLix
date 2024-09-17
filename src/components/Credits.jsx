@@ -13,7 +13,6 @@ export default function Credits() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  // const id = useSelector((state) => state.movie.movieId);
   const credit = useSelector((state) => state.movie.credits);
 
   useEffect(() => {
@@ -51,7 +50,7 @@ export default function Credits() {
                     dispatch(setPersonId(movie?.id));
                   }}
                 >
-                  <div className="inline-block relative overflow-hidden m-1 min-w-[200px] h-[300px] z-0 rounded-md  w-[80px]">
+                  <div className="inline-block relative overflow-hidden m-1 min-w-[200px] h-[300px] z-0 rounded-md w-[80px] cursor-pointer">
                     <img
                       src={
                         movie?.profile_path

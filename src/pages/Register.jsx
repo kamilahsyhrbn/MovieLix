@@ -130,11 +130,11 @@ export default function Register() {
         </div>
       )}
       <ToastContainer />
-      <div className="flex items-center justify-center px-4 py-10">
+      <div className="flex items-center justify-center px-4 h-screen">
         <form className="mt-3" onSubmit={handleSubmit}>
           <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-            <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
-              <div className="max-w-lg mx-auto">
+            <div className="relative px-4 py-10 bg-white shadow rounded-3xl sm:p-10">
+              <div className="max-w-xl mx-auto">
                 <div className="flex items-center space-x-5 justify-center">
                   <h2 className="text-center text-2xl font-bold leading-tight text-black">
                     Create your account
@@ -309,13 +309,13 @@ export default function Register() {
                 <div className="flex items-center justify-between mt-4">
                   <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
                   {isUserLoggedIn ? (
-                    <span className="text-xs text-gray-500 uppercase dark:text-gray-400">
+                    <span className="text-xs text-gray-500 uppercase dark:text-gray-400 text-nowrap">
                       have an account? Log in
                     </span>
                   ) : (
                     <Link
                       to="/login"
-                      className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
+                      className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline text-nowrap"
                     >
                       have an account? Log in
                     </Link>

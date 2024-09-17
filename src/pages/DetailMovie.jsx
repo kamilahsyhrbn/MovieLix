@@ -267,7 +267,15 @@ export default function DetailMovie() {
                   <div className="mb-1">{detailMovie?.runtime} mins</div>
                   <div className="mb-1">Status : {detailMovie?.status}</div>
                   <div className="mb-1">
-                    Release date : {detailMovie?.release_date}
+                    Release date :{" "}
+                    {new Date(detailMovie?.release_date).toLocaleString(
+                      "en-EN",
+                      {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      }
+                    )}
                   </div>
                   <div className="mt-5">
                     {detailMovie?.genres.length === 0 ? (

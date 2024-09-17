@@ -28,7 +28,7 @@ export const getCarousel = () => async (dispatch) => {
       `https://api.themoviedb.org/3/movie/popular?language=en-US&page=5&api_key=${API_KEY}`,
       { header: { accept: "application/json" } }
     );
-    // console.log("Response carousel: ", response.data);
+    console.log("Response carousel: ", response.data);
     const carousel = response?.data?.results;
     dispatch(setCarousel(carousel));
     dispatch(setIsLoading(false));

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
+import background from "../assets/landing.jpg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,14 +15,15 @@ export default function LandingPage() {
   }, [dispatch, navigate]);
 
   return (
-    <div>
-      <div className="h-screen brightness-50">
-        <img
-          src="https://user-images.githubusercontent.com/33485020/108069438-5ee79d80-7089-11eb-8264-08fdda7e0d11.jpg"
-          className="m-auto w-[100%] block"
-        />
-      </div>
-      <div className="absolute text-white left-[30%] top-[35%] text-center">
+    <div
+      style={{
+        backgroundImage: `linear-gradient(rgba(33,33,33,0.522), rgba(33,33,33,0.522)), url(${background})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      className="w-full h-full"
+    >
+      <div className="flex flex-col justify-center items-center text-white text-center h-screen">
         <h1 className="font-black text-5xl">WELCOME TO MOVIELIX</h1>
         <h2 className="font-bold text-[#FF5BAE]">
           Discover a World of Unlimited Entertainment!

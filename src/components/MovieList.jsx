@@ -15,6 +15,7 @@ import {
   getUpcomingMovies,
   getNowPlayingMovies,
 } from "../redux/actions/moviesActions";
+import { useMediaQuery } from "react-responsive";
 
 export default function MovieList() {
   const dispatch = useDispatch();
@@ -24,38 +25,25 @@ export default function MovieList() {
     (state) => state.movie
   );
 
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
+  const isDesktop = useMediaQuery({ minWidth: 1024 });
+
   const handleMovieClick = (id) => {
     navigate(`/detail-movies/${id}`);
   };
 
-  //PROFILE
   useEffect(() => {
     dispatch(getProfile());
-  }, []);
-
-  //POPULAR MOVIES
-  useEffect(() => {
     dispatch(getPopularMovies());
-  }, []);
-
-  //TOP RATED MOVIES
-  useEffect(() => {
     dispatch(getTopRatedMovies());
-  }, []);
-
-  //UPCOMING MOVIES
-  useEffect(() => {
     dispatch(getUpcomingMovies());
-  }, []);
-
-  //NOW PLAYING MOVIES
-  useEffect(() => {
     dispatch(getNowPlayingMovies());
   }, []);
 
   const settings = {
     infinite: true,
-    slidesToShow: 6,
+    slidesToShow: isMobile ? 1 : isTablet ? 3 : 6,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
@@ -85,25 +73,25 @@ export default function MovieList() {
         </div>
       )}
       {!popular?.isLoading && (
-        <div className="pt-0 px-12 pb-12">
+        <div className="pt-0 px-5 md:px-12 pb-12">
           <div className="slider-container">
-            <div className="m-7 mb-5 ml-3 text-white text-center">
-              <h1 className="text-4xl font-black max-sm:text-xl">
+            <div className="my-5 text-white text-center">
+              <h1 className="text-xl font-black md:text-4xl">
                 Welcome Back, {user?.name} ✨
               </h1>
             </div>
             {/* Popular */}
-            <div className="m-7 mb-5 ml-3 text-white flex justify-between items-center">
-              <h2 className="text-2xl font-black tracking-widest max-sm:text-base">
+            <div className="mb-5 text-white flex justify-between items-center">
+              <h2 className="md:text-2xl font-black tracking-widest">
                 POPULAR MOVIES
               </h2>
               <Link to="/popular-movies">
-                <span className="text-yellow-300 flex items-center max-sm:text-sm">
+                <span className="text-yellow-300 flex items-center text-sm md:text-base">
                   View all
                 </span>
               </Link>
             </div>
-            <div className=" ">
+            <div className="mx-5 md:mx-0">
               <Slider {...settings}>
                 {popular?.map((movie) => (
                   <div key={movie.id}>
@@ -112,26 +100,26 @@ export default function MovieList() {
                 ))}
               </Slider>
             </div>
+
             {/* NOW PLAYING */}
             <div className="grid grid-cols-2 my-7 max-sm:grid-cols-1">
-              <div className="text-white">
+              <div className="text-white flex flex-col mb-5">
                 <h1 className="text-3xl font-black tracking-widest mb-3 max-sm:text-base">
-                  NOW PLAYING
+                  NOW PLAYING MOVIES
                 </h1>
-                <div className="flex flex-col items-start">
-                  <span className="mb-3 max-sm:text-sm">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Excepturi itaque recusandae expedita assumenda nesciunt eum
-                    quas, cupiditate nisi dignissimos deleniti consectetur!
-                    Exercitationem, nisi? Ipsum illo est a deserunt fuga
-                    molestias?
-                  </span>
-                  <Link to="/now-playing">
-                    <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FF5BAE] max-sm:mb-3">
-                      See More
-                    </button>
-                  </Link>
-                </div>
+
+                <p className="mb-3">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Excepturi itaque recusandae expedita assumenda nesciunt eum
+                  quas, cupiditate nisi dignissimos deleniti consectetur!
+                  Exercitationem, nisi? Ipsum illo est a deserunt fuga
+                  molestias?
+                </p>
+                <Link to="/now-playing">
+                  <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FF5BAE]">
+                    See More
+                  </button>
+                </Link>
               </div>
               <div>
                 <Slider {...settings2}>
@@ -157,7 +145,14 @@ export default function MovieList() {
                             {movie?.title}
                           </div>
                           <div className="flex justify-between items-center text-xs mb-1">
-                            {movie?.release_date}
+                            {new Date(movie?.release_date).toLocaleString(
+                              "en-EN",
+                              {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                              }
+                            )}
                             <span className="mt-1 flex items-center">
                               <FaStar className="mr-1 text-yellow-300" />
                               {movie?.vote_average.toFixed(1)}
@@ -173,6 +168,7 @@ export default function MovieList() {
                 </Slider>
               </div>
             </div>
+
             {/* UPCOMING */}
             <div className="mx-7 my-5 ml-3 text-white flex justify-between items-center">
               <h2 className="text-2xl font-black tracking-widest max-sm:text-base">
@@ -184,7 +180,7 @@ export default function MovieList() {
                 </span>
               </Link>
             </div>
-            <div>
+            <div className="mx-5 md:mx-0">
               <Slider {...settings}>
                 {upcoming?.map((movie) => (
                   <div key={movie.id}>
@@ -219,7 +215,14 @@ export default function MovieList() {
                             {movie?.title}
                           </div>
                           <div className="flex justify-between items-center text-xs mb-1">
-                            {movie?.release_date}
+                            {new Date(movie?.release_date).toLocaleString(
+                              "en-EN",
+                              {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                              }
+                            )}
                             <span className="mt-1 flex items-center">
                               <FaStar className="mr-1 text-yellow-300" />
                               {movie?.vote_average.toFixed(1)}
@@ -240,13 +243,13 @@ export default function MovieList() {
                   TOP RATED MOVIES
                 </h1>
 
-                <span className="mb-3 text-end max-sm:text-start">
+                <p className="mb-3 text-end max-sm:text-start">
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                   Excepturi itaque recusandae expedita assumenda nesciunt eum
                   quas, cupiditate nisi dignissimos deleniti consectetur!
                   Exercitationem, nisi? Ipsum illo est a deserunt fuga
                   molestias?
-                </span>
+                </p>
                 <Link to="/top-rated">
                   <button className="p-2 rounded-xl bg-[#FF5BAE] hover:bg-[#FF5BAE]">
                     See More

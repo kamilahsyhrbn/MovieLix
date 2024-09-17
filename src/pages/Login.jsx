@@ -69,17 +69,17 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <ToastContainer />
       {showPopup && (
         <div className="bg-[#FF5BAE] text-white rounded-sm p-3 text-center text-xl">
           <p>No need to login again, because your token is still active.</p>
         </div>
       )}
-      <div className="flex items-center justify-center px-4 py-10 ">
+      <div className="flex items-center justify-center h-screen overflow-hidden">
         <form className="mt-8" onSubmit={handleSubmit}>
-          <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-            <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+          <div className="relative">
+            <div className="relative px-4 py-10 bg-white shadow rounded-3xl md:w-96">
               <div className="max-w-lg mx-auto">
                 <div className="flex items-center space-x-5 justify-center">
                   <h2 className="text-center text-2xl mt-2 font-bold leading-tight text-black">
@@ -167,7 +167,7 @@ export default function Login() {
                   </p>
                 )}
                 {isUserLoggedIn ? (
-                  <div className="flex justify-center w-full items-center">
+                  <div className="flex justify-center items-center">
                     <div>
                       <button disabled>
                         <GoogleBtn />
@@ -176,7 +176,7 @@ export default function Login() {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex justify-center w-full items-center">
+                  <div className="flex justify-center items-center">
                     <div>
                       <GoogleBtn />
                       <FacebookBtn />
